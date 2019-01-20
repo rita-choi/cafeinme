@@ -1,28 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
-	<!-- Enables the Spring MVC @Controller programming model -->
+	<!-- 스프링 MVC 관련 설정만을 분리하기 위한 파일 -->
+
+	<!-- 애너테이션 자동 인식 -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- 정적 자원 -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/bower_components/**"
+		location="/resources/bower_components/" />
+	<resources mapping="/plugins/**"
+		location="/resources/plugins/" />
+	<resources mapping="/dist/**" location="/resources/dist/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+
+	<!-- base-package 속성 값에 해당하는 패키지 내부의 클래스들을 모두 조사 -->
+	<context:component-scan
+		base-package="com.cafe.main.**" />
+
+	<!--AOP 설정을 통한 자동적인 Proxy 객체 생성을 위한 설정 -->
+	<aop:aspectj-autoproxy />
 	
-	<context:component-scan base-package="com.cafe.main" />
+	    <!--로그인 처리 Interceptor 설정-->
+    <beans:bean id="loginInterceptor" class="com.cafe.main.commons.interceptor.LoginInterceptor"/>
+
+    <!--로그인 페이지 이동 Interceptor 설정-->
+    <beans:bean id="loginAfterInterceptor" class="com.cafe.main.commons.interceptor.LoginAfterInterceptor"/>
+
+    <!--글작성, 수정, 삭제 권한 Interceptor 설정-->
+    <beans:bean id="authInterceptor" class="com.cafe.main.commons.interceptor.AuthInterceptor"/>
+
+    <!--로그인 유지 Interceptor 설정-->
+    <beans:bean id="rememberMeInterceptor" class="com.cafe.main.commons.interceptor.RememberMeInterceptor"/>
+
+
+    <interceptors>
+        <interceptor>
+            <mapping path="/user/loginPost"/>
+            <beans:ref bean="loginInterceptor"/>
+        </interceptor>
+        <interceptor>
+            <mapping path="/user/login"/>
+            <mapping path="/user/register"/>
+            <beans:ref bean="loginAfterInterceptor"/>
+        </interceptor>
+        <interceptor>
+            <mapping path="/cafe/write"/>
+            <mapping path="/cafe/modify"/>
+            <mapping path="/cafe/delete"/>
+            <beans:ref bean="authInterceptor"/>
+        </interceptor>
+        <interceptor>
+            <mapping path="/**/"/>
+            <beans:ref bean="rememberMeInterceptor"/>
+        </interceptor>
+    </interceptors>
 	
-	
-	
+    <!--파일 업로드 MultipartResolver 설정 : 파일 업로드로 들어오는 데이터 처리 객체 설정-->
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSize" value="10485760"/>
+    </beans:bean>
+
 </beans:beans>

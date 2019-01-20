@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe.main.mapper.reviewMapper">
+
+	<resultMap id="ReviewResultMap"
+		type="com.cafe.main.domain.ReviewVO">
+		<id property="rno" column="rno" />
+		<result property="cno" column="cno" />
+		<result property="reviewtxt" column="reviewtxt" />
+		<result property="reviewer" column="reviewer" />
+		<result property="regdate" column="regdate" />
+		<result property="updatedate" column="updatedate" />
+		<association property="userVO" resultMap="userVOResultMap" />
+		<association property="cafelistVO"
+			resultMap="CafeListResultMap" />
+	</resultMap>
+
+	<resultMap id="CafeListResultMap"
+		type="com.cafe.main.domain.CafeListVO">
+		<id property="cno" column="cno" />
+		<result property="cafename" column="cafename" />
+		<result property="content" column="content" />
+		<result property="location" column="location" />
+		<result property="writer" column="writer" />
+		<result property="regdate" column="regdate" />
+		<result property="updatedate" column="updatedate" />
+		<result property="viewcnt" column="viewcnt" />
+		<result property="mymenu" column="mymenu" />
+		<result property="reviewcnt" column="reviewcnt" />
+		<result property="scorecnt" column="scorecnt" />
+		<association property="userVO" resultMap="userVOResultMap" />
+	</resultMap>
+
+	<resultMap id="userVOResultMap" type="com.cafe.main.domain.UserVO">
+		<id property="uid" column="uid" />
+		<result property="upw" column="upw" />
+		<result property="uname" column="uname" />
+		<result property="sessionkey" column="sessionkey" />
+		<result property="sessionlimit" column="sessionlimit" />
+		<result property="uemail" column="uemail" />
+		<result property="regdate" column="regdate" />
+		<result property="logdate" column="logdate" />
+		<result property="uimage" column="uimage" />
+	</resultMap>
+
+	<insert id="create">
+		INSERT INTO cafe_review (cno, reviewtxt,
+		reviewer) VALUES (#{cno}, #{reviewtxt}, #{reviewer})
+	</insert>
+
+	<select id="list" resultMap="ReviewResultMap">
+      SELECT
+			r.rno
+            , r.cno
+            , r.reviewtxt
+            , r.reviewer
+            , r.regdate
+            , r.updatedate
+            , u.uimage
+        FROM cafe_review r
+            LEFT OUTER JOIN cafe_user u
+                ON u.uid = r.replyer
+        WHERE cno = #{cno}
+        ORDER BY rno DESC
+	</select>
+
+
+	<update id="update">
+		UPDATE cafe_review SET reviewtxt = #{reviewtxt},
+		updatedate = NOW() WHERE rno = #{rno}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM cafe_review WHERE rno = #{rno}
+	</delete>
+
+	<select id="listPaging" resultMap="ReviewResultMap">
+	SELECT
+            r.rno
+            , r.cno
+            , r.reviewtxt
+            , r.reviewer
+            , r.regdate
+            , r.updatedate
+            , u.uimage
+            , (SELECT COUNT(rlno) FROM review_likes WHERE rno = r.rno) as rlnocount
+        FROM cafe_review r
+            LEFT OUTER JOIN cafe_user u
+                ON u.uid = r.reviewer
+        WHERE cno = #{cno}
+        ORDER BY rno DESC
+        LIMIT #{criteria.pageStart}, #{criteria.perPageNum}
+	</select>
+
+	<select id="countReviews" resultType="int">
+		SELECT COUNT(cno) FROM
+		cafe_review WHERE cno=#{cno}
+	</select>
+
+
+	<select id="getCafeNo" resultType="int">
+		SELECT
+		cno
+		FROM cafe_review
+		WHERE
+		rno = #{rno}
+	</select>
+
+
+	<!--회원이 작성한 댓글 목록 -->
+	<select id="userReviews" resultMap="ReviewResultMap">
+		SELECT
+		r.reviewtxt
+		, r.regdate
+		, l.cafename
+		, l.cno
+		FROM cafe_review r
+		LEFT OUTER JOIN cafe_list l
+		ON l.cno = r.cno
+		WHERE reviewer = #{uid}
+	</select>
+
+</mapper>

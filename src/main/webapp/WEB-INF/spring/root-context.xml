@@ -1,8 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<!-- DB의 타임존이 설정되어 있지 않으면 기본값을 가져오고 서버와 싱크되지 않음 ; serverTimezone=Asia/Seoul를 추가 -->
+		<property name="url"
+			value="jdbc:log4jdbc:mysql://127.0.0.1:3306/cafedb?useSSL=false&amp;serverTimezone=Asia/Seoul" />
+		<property name="username" value="root" />
+		<property name="password" value="Ritabbk123!" />
+	</bean>
+
+	<!-- 트랜잭션 매너저 설정 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource">
+		</property>
+	</bean>
+
+	<tx:annotation-driven />
+
+	<!-- mybatis SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation"
+			value="classpath:/mybatis-config.xml"></property>
+		<property name="mapperLocations"
+			value="classpath:mappers/**/*Mapper.xml"></property>
+	</bean>
+
+	<!-- mybatis -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	<!-- bean 등록 -->
+	<context:component-scan
+		base-package="com.cafe.main"></context:component-scan>
+
+	<!--게시글 첨부 파일 저장 경로 설정 -->
+	<bean id="uploadPath" class="java.lang.String">
+		<constructor-arg
+			value="C:\\java\\cafeinme-project\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\upload_files">
+		</constructor-arg>
+	</bean>
+
+	<!--프로필 이미지 파일 저장 경로 설정 -->
+	<bean id="uimagePath" class="java.lang.String">
+		<constructor-arg
+			value="C:\\java\\cafeinme-project\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\profile">
+		</constructor-arg>
+	</bean>
+
 </beans>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe.main.mapper.cafelistMapper">
+
+	<resultMap id="CafeListResultMap"
+		type="com.cafe.main.domain.CafeListVO">
+		<id property="cno" column="cno" />
+		<result property="cafename" column="cafename" />
+		<result property="content" column="content" />
+		<result property="location" column="location" />
+		<result property="writer" column="writer" />
+		<result property="regdate" column="regdate" />
+		<result property="updatedate" column="updatedate" />
+		<result property="viewcnt" column="viewcnt" />
+		<result property="mymenu" column="mymenu" />
+		<result property="reviewcnt" column="reviewcnt" />
+		<result property="scorecnt" column="scorecnt" />
+	</resultMap>
+	
+	<insert id="create" parameterType="com.cafe.main.domain.CafeListVO">
+		INSERT INTO cafe_list (cno, cafename, content,
+		location, writer, viewcnt, mymenu) VALUES (#{cno},
+		#{cafename},#{content}, #{location}, #{writer}, #{viewcnt},
+		#{mymenu})
+	</insert> 
+
+	<select id="read" resultType="com.cafe.main.domain.CafeListVO">
+		SELECT cno, cafename, content,
+		location, writer, updatedate, viewcnt, mymenu FROM cafe_list WHERE
+		cno = #{cno}
+	</select>
+
+	<update id="update">
+		UPDATE cafe_list SET cafename=#{cafename},
+		content=#{content}, location=#{location} WHERE cno = #{cno}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM cafe_list WHERE cno = #{cno}
+	</delete>
+
+	<select id="listAll" resultType="com.cafe.main.domain.CafeListVO">
+	<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu FROM cafe_list WHERE cno > 0 ORDER BY cno DESC, regdate DESC]]>
+	</select>
+
+
+	<select id="listCriteria" resultMap="CafeListResultMap">
+			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu FROM cafe_list WHERE cno > 0 ORDER BY cno DESC, updatedate DESC LIMIT #{page}, #{perPageNum}]]>
+	</select>
+
+	<select id="countLists" resultType="int">
+			<![CDATA[SELECT COUNT(cno) FROM cafe_list WHERE cno > 0]]>
+	</select>
+
+	<select id="listSearch" resultMap="CafeListResultMap">
+			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, reviewcnt FROM cafe_list WHERE cno> 0]]><include
+		refid="search" /><![CDATA[ ORDER BY cno DESC, updatedate DESC LIMIT #{pageStart}, #{perPageNum}]]>
+	</select>
+	
+	<select id="countSearchedLists" resultType="int">
+		<![CDATA[SELECT COUNT(cno) FROM cafe_list WHERE cno > 0]]><include refid="search"/>
+	</select>
+	<!--검색옵션 SQL -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				AND cafename LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				AND content LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				AND writer LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				AND (
+				cafename LIKE CONCAT('%', #{keyword}, '%')
+				OR content LIKE CONCAT('%', #{keyword}, '%')
+				)
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				AND (
+				content LIKE CONCAT('%', #{keyword}, '%')
+				OR writer LIKE CONCAT('%', #{keyword}, '%')
+				)
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				AND (
+				cafename LIKE CONCAT('%', #{keyword}, '%')
+				OR content LIKE CONCAT('%', #{keyword}, '%')
+				OR writer LIKE CONCAT('%', #{keyword}, '%')
+				)
+			</if>
+		</if>
+	</sql>
+	
+	<!-- 댓글 갱신 SQL -->
+	<update id="updateReplyCnt">
+		UPDATE cafe_list
+		SET reviewcnt = reviewcnt + #{amount}
+		WHERE cno = #{cno}
+	</update>
+	
+	<!-- 게시글 조회수 갱신 SQL -->
+	<update id="updateViewCnt">
+		UPDATE cafe_list
+		SET viewcnt = viewcnt + 1
+		WHERE cno = #{cno}
+	</update>
+	
+	    <!--회원이 작성한 게시글 목록-->
+    <select id="userCafeList" resultType="com.cafe.main.domain.CafeListVO">
+        SELECT
+            *
+        FROM cafe_list
+        WHERE writer = #{uid}
+        ORDER BY cno DESC, regdate DESC
+    </select>
+
+</mapper>

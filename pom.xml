@@ -36,7 +36,7 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
-	<!-- jdbc 라이브러리 미 추가 시에 db 작업 에러 발생 (Context Intialization error) -->
+		<!-- jdbc 라이브러리 미 추가 시에 db 작업 에러 발생 (Context Intialization error) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
@@ -71,9 +71,9 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
-		
-			<!-- RequestBody를 사용하기 위한 jackson-bind library ; 최신버젼으로 설치하지 않으면 오류 남 -->
+
+
+		<!-- RequestBody를 사용하기 위한 jackson-bind library ; 최신버젼으로 설치하지 않으면 오류 남 -->
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -112,7 +112,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>6.0.6</version>
 		</dependency>
-		
+
 		<!--MyBatis 로그 -->
 		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4 -->
 		<dependency>
@@ -138,12 +138,11 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- log4j-remix -->
-	<!--<dependency>
-			<groupId>org.lazyluke</groupId>
-			<artifactId>log4jdbc-remix</artifactId>
-			<version>0.2.7</version>
-		</dependency>  -->	
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.9</version>
+		</dependency>
 
 		<!-- Mybatis log -->
 		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
@@ -160,7 +159,7 @@
 			<artifactId>spring-aop</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- log4jdbc-log4j2 -->
 		<dependency>
 			<groupId>org.bgee.log4jdbc-log4j2</groupId>
@@ -243,7 +242,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 	</dependencies>
 	<build>
 		<plugins>

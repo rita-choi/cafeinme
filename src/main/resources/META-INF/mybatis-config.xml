@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 패키지명 등록 -->
+	<!-- <typeAliases> <typeAlias type="com.cafe.main.domain.CafeListVO" alias="cafelistVO" 
+		/> <typeAlias type="com.cafe.main.domain.ReplyVO" alias="replyVO" /> </typeAliases> -->
+    <typeAliases>
+        <package name="com.cafe.main.domain"/>
+    </typeAliases>
+
+</configuration>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe.main.mapper.BookmarkMapper">
+
+    <!--북마크 등록-->
+    <insert id="create">
+        INSERT cafe_bookmark (
+            cno
+            , uid
+        ) VALUES (
+            #{cno}
+            , #{uid}
+        )
+    </insert>
+
+    <!--북마크 목록-->
+    <select id="list" resultMap="bookmarkVOResultMap">
+        SELECT
+            bm.bmno
+            , bm.cno
+            , bm.uid
+            , c.cafename
+            , c.writer
+        FROM cafe_bookmark bm
+            LEFT OUTER JOIN cafe_list c
+                ON c.cno = bm.cno
+        WHERE uid = #{uid}
+        ORDER BY bm.regdate desc
+    </select>
+
+    <!--북마크 확인-->
+    <select id="checkBookmark" resultType="boolean">
+        SELECT
+            COUNT(bmno)
+        FROM cafe_bookmark
+        WHERE uid = #{uid}
+              AND cno = #{cno}
+    </select>
+
+    <!--북마크 삭제-->
+    <delete id="delete">
+        DELETE FROM cafe_bookmark
+        WHERE cno = #{cno}
+              AND uid = #{uid}
+    </delete>
+
+    <resultMap id="bookmarkVOResultMap" type="com.cafe.main.domain.BookmarkVO">
+        <id property="bmno" column="bmno"/>
+        <result property="cno" column="cno"/>
+        <result property="uid" column="uid"/>
+        <result property="regdate" column="regdate"/>
+        <association property="cafelistVO" resultMap="CafeListResultMap"/>
+    </resultMap>
+
+   	<resultMap id="CafeListResultMap"
+		type="com.cafe.main.domain.CafeListVO">
+		<id property="cno" column="cno" />
+		<result property="cafename" column="cafename" />
+		<result property="content" column="content" />
+		<result property="location" column="location" />
+		<result property="writer" column="writer" />
+		<result property="regdate" column="regdate" />
+		<result property="updatedate" column="updatedate" />
+		<result property="viewcnt" column="viewcnt" />
+		<result property="mymenu" column="mymenu" />
+		<result property="reviewcnt" column="reviewcnt" />
+		<result property="scorecnt" column="scorecnt" />
+	</resultMap>
+
+</mapper>
