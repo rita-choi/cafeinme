@@ -39,12 +39,17 @@ public interface CafeListDAO {
 	int countSearchedLists(SearchCriteria searchCriteria) throws Exception;
 	
 	//댓글 갯수 갱신
-	void updateReplyCnt(int cno, int amount) throws Exception;
+	void updateReviewCnt(int cno, int amount) throws Exception;
+	
+	//평점 갱신
+	void updateScoreCnt(int cno) throws Exception;
 	
 	//게시글 조회수
 	void updateViewCnt(int cno) throws Exception;
 	
 	// 회원이 작성한 카페글 목록
     public List<CafeListVO> userCafeList(String uid) throws Exception;
+    
+
 	
 }

@@ -42,6 +42,14 @@ public class CafeListController {
 
     }
     
+    // 카페글 입력 페이지
+    @RequestMapping(value = "/maps", method = RequestMethod.GET)
+    public String mapsGET() throws Exception {
+
+        return "cafe/maps";
+
+    }
+    
     // 카페글 입력 처리
     @RequestMapping(value = "/write", method = RequestMethod.POST)
     public String writePOST(@ModelAttribute("vo") CafeListVO vo,

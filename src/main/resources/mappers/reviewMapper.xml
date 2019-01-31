@@ -13,6 +13,8 @@
 		<result property="reviewer" column="reviewer" />
 		<result property="regdate" column="regdate" />
 		<result property="updatedate" column="updatedate" />
+		<result property="rlnocount" column="rlnocount"/>
+		<result property="score" column="score"/>
 		<association property="userVO" resultMap="userVOResultMap" />
 		<association property="cafelistVO"
 			resultMap="CafeListResultMap" />
@@ -48,7 +50,7 @@
 
 	<insert id="create">
 		INSERT INTO cafe_review (cno, reviewtxt,
-		reviewer) VALUES (#{cno}, #{reviewtxt}, #{reviewer})
+		reviewer, score) VALUES (#{cno}, #{reviewtxt}, #{reviewer}, #{score});
 	</insert>
 
 	<select id="list" resultMap="ReviewResultMap">
@@ -57,6 +59,7 @@
             , r.cno
             , r.reviewtxt
             , r.reviewer
+            , r.score
             , r.regdate
             , r.updatedate
             , u.uimage
@@ -76,6 +79,11 @@
 	<delete id="delete">
 		DELETE FROM cafe_review WHERE rno = #{rno}
 	</delete>
+	
+		<delete id="deleteAll">
+		DELETE FROM cafe_review WHERE cno = #{cno}
+	</delete>
+	
 
 	<select id="listPaging" resultMap="ReviewResultMap">
 	SELECT
@@ -83,6 +91,7 @@
             , r.cno
             , r.reviewtxt
             , r.reviewer
+            , r.score
             , r.regdate
             , r.updatedate
             , u.uimage

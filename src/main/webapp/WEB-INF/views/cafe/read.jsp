@@ -44,14 +44,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	$(document)
 			.ready(
 					function() {
-
-						console.log("리뷰 발동");
 						
 						//전역 변수
 						var cno = ${cafelist.cno}; //현재 게시글 번호
 				        var uid = "${login.uid}";
-
-						console.log(">>> cno>>>> " + cno);
+				        var score = "";
+				        
+				        $('input[name="score"]').click(function(){
+				        	  score = $('input[name="score"]:checked').val();
+				        });
+				     
+				        var finalscore =  parseFloat(${cafelist.scorecnt}/${cafelist.reviewcnt}).toFixed(1);
+				        
+				        if(${cafelist.scorecnt} != 0 && ${cafelist.reviewcnt} != 0) {
+				        $("#scorecnt").text(finalscore);
+				        }else if(${cafelist.scorecnt} == 0){
+				        $("#scorecnt").text("카페에 대한 리뷰와 평점을 남겨주세요!");
+				        }
 
 						var reviewPageNum = 1; // 리뷰 페이지 번호 초기화
 						//리뷰 내용 : 줄바꿈, 공백처리
@@ -96,7 +105,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										$("#reviewTemplate"));
 								printReviewPaging(data.pageMaker,
 										$(".pagination"));
+								
+								 // 4. 댓글 추천여부 확인
+				                $(".reviewDiv").each(function () {
+				                    var reviewLike = $(this).find(".reviewLike");
+				                    var rno = $(this).attr("data-rno");
+				                    checkReviewLike(rno, reviewLike);
+				                })
+				                
+				            // 5. 추천 갯수 확인
+				                $(".reviewDiv").each(function () {
+				                    var reviewLike = $(this).find(".reviewLike");
+				                    var rno = $(this).attr("data-rno");
+	                                totalCountReviewLike(rno, reviewLike);
+
+				                })
 							});
+							
+							
 						}
 						function printReviewCount(totalCount) {
 
@@ -167,7 +193,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											var reviewText = reviewTextObj.val();
 											var reviewerVal = reviewerObj
 													.val();
-											//AJAX 통신 : POST
+											
+											console.log("리뷰 총점은 " +  score + "입니다");
+												//AJAX 통신 : POST
 											$
 													.ajax({
 														type : "post",
@@ -181,7 +209,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 																.stringify({
 																	cno : cno,
 																	reviewtxt : reviewText,
-																	reviewer : reviewerVal
+																	reviewer : reviewerVal,
+																	score: score
 																}),
 														success : function(
 																result) {
@@ -195,10 +224,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 																	+ reviewPageNum); //리뷰 목록 출력 함수 호출
 															reviewTextObj
 																	.val(""); // 리뷰 입력창 공백처리
-															reviewerObj
-																	.val(""); //  리뷰 입력창 공백처리
+															// 평점 버튼 초기화
+															$('input[name="score"]:checked').attr("checked", false);
+															$("#scorecnt").text(finalscore);
+															
 														}
 													});
+											
 										});
 
 						$(".reviewDiv").on(
@@ -210,7 +242,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 									var review = $(this).parent().parent()
 											.parent();
-									var reviewNo = review.attr("data-reviewno");
+									var reviewNo = review.attr("data-rno");
 									var reviewText = review.find(".oldReviewtext")
 											.text();
 
@@ -307,15 +339,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					            }
 					            return accum;
 					        });
+					     /*================================================리뷰 평점 관련==================================*/
 
-					
+					     
 				        /*================================================리뷰 추천 관련==================================*/
 				        // 리뷰 추천여부 확인
 				        var checkReviewLike = function (rno, reviewLike) {
 				            reviewLike.find("i").attr("class", "fa fa-thumbs-o-up");
 				            $.getJSON("/likes/check/" + cno + "/" + uid + "/" + rno, function (result) {
 				                var likeCheck = result.checkReviewLike;
-				                console.log(likeCheck);
+				                console.log("리뷰 추천 여부 확인");
 				                if (likeCheck) {
 				                    reviewLike.find("i").attr("class", "fa fa-thumbs-up");
 				                }
@@ -325,7 +358,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				        $(".reviewsDiv").on("click", ".reviewLike", function (event) {
 				            event.preventDefault();
 				            var reviewLike = $(this);
-				            var rno = reviewLike.closest(".reviewDiv").attr("data-reviewno");
+				            var rno = reviewLike.closest(".reviewDiv").attr("data-rno");
 				            var isReviewLike = reviewLike.find("i").hasClass("fa-thumbs-o-up");
 				            if (uid == "") {
 				                alert("로그인 후에 추천할 수 있습니다.");
@@ -343,7 +376,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				                        },
 				                        dataType: "text",
 				                        success: function (result) {
-				                            if (result == "REPLY LIKE CREATED") {
+				                            if (result == "REVIEW LIKE CREATED") {
 				                                alert("리뷰이 추천되었습니다.");
 				                                checkReviewLike(rno, reviewLike);
 				                                totalCountReviewLike(rno, reviewLike);
@@ -446,11 +479,75 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				            }
 				        });
 
-
+				        /*================================================게시판 첨부파일 업로드 목록 관련==================================*/
+				        var templatePhotoAttach = Handlebars.compile($("#templatePhotoAttach").html()); // 이미지 template
+				        var templateFileAttach = Handlebars.compile($("#templateFileAttach").html());   // 일반파일 template
+				        $.getJSON("/file/list/" + cno, function (list) {
+				            if (list.length == 0) {
+				                $(".uploadedList").html("첨부파일이 없습니다.");
+				            }
+				            $(list).each(function () {
+				                // 파일정보 가공
+				                var fileInfo = getFileInfo(this);
+				                // 이미지 파일일 경우
+				                if (fileInfo.fullName.substr(12, 2) == "s_") {
+				                    var html = templatePhotoAttach(fileInfo);
+				                    // 이미지 파일이 아닐 경우
+				                } else {
+				                    html = templateFileAttach(fileInfo);
+				                }
+				                $(".uploadedList").append(html);
+				            })
+				        });
 					});
 	
 	
 </script>
+<style>
+
+.star-rating {
+  font-family: 'FontAwesome';
+  margin: 50px auto;
+}
+.star-rating > fieldset {
+  border: none;
+  display: inline-block;
+}
+.star-rating > fieldset:not(:checked) > input {
+  position: absolute;
+  /*top: -9999px;*/
+  clip: rect(0, 0, 0, 0);
+}
+.star-rating > fieldset:not(:checked) > label {
+  float: right;
+  width: 1em;
+  padding: 0 0.05em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 200%;
+  color: #16a085;
+}
+.star-rating > fieldset:not(:checked) > label:before {
+  content: '\f006  ';
+}
+.star-rating > fieldset:not(:checked) > label:hover,
+.star-rating > fieldset:not(:checked) > label:hover ~ label {
+  color: #1abc9c;
+  text-shadow: 0 0 3px #1abc9c;
+}
+.star-rating > fieldset:not(:checked) > label:hover:before,
+.star-rating > fieldset:not(:checked) > label:hover ~ label:before {
+  content: '\f005  ';
+}
+.star-rating > fieldset > input:checked ~ label:before {
+  content: '\f005  ';
+}
+.star-rating > fieldset > label:active {
+  position: relative;
+  top: 2px;
+}
+</style>
 <!--
 BODY TAG OPTIONS:
 =================
@@ -511,8 +608,19 @@ desired effect
 										class="fa fa-eye"></i>조회수 (${cafelist.viewcnt})</a></li>
 							</ul>
 						</div>
+						<div class="box-header with-border">
+							<h3 class="box-title">평점 : <span id="scorecnt"></span></h3>
+						</div>
 						<div class="box-body" style="height: 700px;">
 							${cafelist.content}</div>
+						<div class="box-footer">
+						위치 : ${cafelist.location}
+						<div id="map" style="width:100%;height:350px;"></div>
+						</div>
+					<%--업로드 파일 정보 영역--%>
+                    <div class="box-footer uploadFiles">
+                        <ul class="mailbox-attachments clearfix uploadedList"></ul>
+                    </div>
 						<div class="box-footer">
 							<div class="user-block">
 								<img class="img-circle img-bordered-sm"
@@ -559,6 +667,15 @@ desired effect
                                         <input class="form-control" id="newReviewer" type="text" value="${login.uid}" readonly="readonly">
                                     </div>
                                     <hr/>
+                                    <div class="star-rating">
+  <fieldset>
+    <input type="radio" id="star5" name="score" value="5" checked /><label for="star5" title="Outstanding">5 stars</label>
+    <input type="radio" id="star4" name="score" value="4" /><label for="star4" title="Very Good">4 stars</label>
+    <input type="radio" id="star3" name="score" value="3" /><label for="star3" title="Good">3 stars</label>
+    <input type="radio" id="star2" name="score" value="2" /><label for="star2" title="Poor">2 stars</label>
+    <input type="radio" id="star1" name="score" value="1" /><label for="star1" title="Very Poor">1 star</label>
+  </fieldset>
+</div>
                                     <div class="col-sm-2">
                                         <button type="button" class="btn btn-primary btn-block reviewAddBtn"><i class="fa fa-save"></i> 저장</button>
                                     </div>
@@ -656,10 +773,75 @@ desired effect
 
 		<%@ include file="../include/main_footer.jsp"%>
 	</div>
+	
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9619937fadbc25cf54f5d5e469cc0c2a&libraries=services"></script>
+<%-- 다음 지도 --%>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
+
+// 지도를 생성합니다    
+var map = new daum.maps.Map(mapContainer, mapOption); 
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new daum.maps.services.Geocoder();
+
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch('${cafelist.location}', function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면 
+     if (status === daum.maps.services.Status.OK) {
+
+        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new daum.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        var infowindow = new daum.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">${cafelist.cafename}</div>'
+        });
+        infowindow.open(map, marker);
+
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } 
+});    
+</script>
+<%--Handlebars JS--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+<%--업로드 JS--%>
+<script type="text/javascript" src="/resources/dist/js/upload.js"></script>
+
+<%--첨부파일 하나의 영역--%>
+<%--이미지--%>
+<script id="templatePhotoAttach" type="text/x-handlebars-template">
+    <li>
+        <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
+        <div class="mailbox-attachment-info">
+            <a href="{{getLink}}" class="mailbox-attachment-name" data-lightbox="uploadImages"><i class="fa fa-camera"></i> {{fileName}}</a>
+        </div>
+    </li>
+</script>
+<%--일반 파일--%>
+<script id="templateFileAttach" type="text/x-handlebars-template">
+    <li>
+        <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
+        <div class="mailbox-attachment-info">
+            <a href="{{getLink}}" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{fileName}}</a>
+        </div>
+    </li>
+</script>
 	<!-- ./wrapper -->
 	<script id="reviewTemplate" type="text/x-handlebars-template">
     {{#each.}}
-    <div class="post reviewDiv" data-reviewNo={{rno}}>
+    <div class="post reviewDiv" data-rno={{rno}}>
            <div class="user-block">
             <%--리뷰 작성자 프로필사진 : 추후 이미지 업로드기능 구현 예정--%>
             <img class="img-circle img-bordered-sm" src="${path}/dist/img/profile{{userVO.uimage}}" alt="user image">
@@ -691,6 +873,9 @@ desired effect
                     <i class="fa fa-thumbs-o-up"></i> 추천<span>({{rlnocount}})</span>
                 </a>
             </li>
+			<li>
+				<i class="fa fa-star"></i> 평점<span>{{score}}.0 점</span>
+			</li>
         </ul>
     </div>
     {{/each}}

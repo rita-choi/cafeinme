@@ -17,37 +17,68 @@
 		<result property="mymenu" column="mymenu" />
 		<result property="reviewcnt" column="reviewcnt" />
 		<result property="scorecnt" column="scorecnt" />
+		<result property="attachcnt" column="attachcnt" />
+		<association property="userVO" resultMap="userVOResultMap" />
 	</resultMap>
 	
-	<insert id="create" parameterType="com.cafe.main.domain.CafeListVO">
+	<resultMap id="userVOResultMap" type="com.cafe.main.domain.UserVO">
+		<id property="uid" column="uid" />
+		<result property="upw" column="upw" />
+		<result property="uname" column="uname" />
+		<result property="sessionkey" column="sessionkey" />
+		<result property="sessionlimit" column="sessionlimit" />
+		<result property="uemail" column="uemail" />
+		<result property="regdate" column="regdate" />
+		<result property="logdate" column="logdate" />
+		<result property="uimage" column="uimage" />
+	</resultMap>
+
+	<insert id="create"
+		parameterType="com.cafe.main.domain.CafeListVO">
 		INSERT INTO cafe_list (cno, cafename, content,
-		location, writer, viewcnt, mymenu) VALUES (#{cno},
+		location,
+		writer, viewcnt, mymenu , attachcnt) VALUES (#{cno},
 		#{cafename},#{content}, #{location}, #{writer}, #{viewcnt},
-		#{mymenu})
-	</insert> 
+		#{mymenu},
+		#{attachcnt})
+	</insert>
 
 	<select id="read" resultType="com.cafe.main.domain.CafeListVO">
-		SELECT cno, cafename, content,
-		location, writer, updatedate, viewcnt, mymenu FROM cafe_list WHERE
-		cno = #{cno}
+		 SELECT
+            c.cno
+            , c.cafename
+            , c.content
+            , c.writer
+            , c.location
+            , c.regdate
+            , c.viewcnt
+            , c.reviewcnt
+            , c.scorecnt
+            , c.attachcnt
+            , u.uimage
+        FROM cafe_list c
+            LEFT OUTER JOIN cafe_user u
+                ON u.uid = c.writer
+        WHERE cno = #{cno}
 	</select>
 
 	<update id="update">
 		UPDATE cafe_list SET cafename=#{cafename},
-		content=#{content}, location=#{location} WHERE cno = #{cno}
+		content=#{content}, location=#{location}, attachcnt=#{attachcnt} WHERE cno = #{cno}
 	</update>
 
 	<delete id="delete">
 		DELETE FROM cafe_list WHERE cno = #{cno}
 	</delete>
 
-	<select id="listAll" resultType="com.cafe.main.domain.CafeListVO">
-	<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu FROM cafe_list WHERE cno > 0 ORDER BY cno DESC, regdate DESC]]>
+	<select id="listAll"
+		resultType="com.cafe.main.domain.CafeListVO">
+	<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, attachcnt FROM cafe_list WHERE cno > 0 ORDER BY cno DESC, regdate DESC]]>
 	</select>
 
 
 	<select id="listCriteria" resultMap="CafeListResultMap">
-			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu FROM cafe_list WHERE cno > 0 ORDER BY cno DESC, updatedate DESC LIMIT #{page}, #{perPageNum}]]>
+			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, attachcnt FROM cafe_list WHERE cno > 0 ORDER BY cno DESC, updatedate DESC LIMIT #{page}, #{perPageNum}]]>
 	</select>
 
 	<select id="countLists" resultType="int">
@@ -55,12 +86,13 @@
 	</select>
 
 	<select id="listSearch" resultMap="CafeListResultMap">
-			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, reviewcnt FROM cafe_list WHERE cno> 0]]><include
+			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, reviewcnt, attachcnt FROM cafe_list WHERE cno> 0]]><include
 		refid="search" /><![CDATA[ ORDER BY cno DESC, updatedate DESC LIMIT #{pageStart}, #{perPageNum}]]>
 	</select>
-	
+
 	<select id="countSearchedLists" resultType="int">
-		<![CDATA[SELECT COUNT(cno) FROM cafe_list WHERE cno > 0]]><include refid="search"/>
+		<![CDATA[SELECT COUNT(cno) FROM cafe_list WHERE cno > 0]]><include
+		refid="search" />
 	</select>
 	<!--검색옵션 SQL -->
 	<sql id="search">
@@ -77,46 +109,59 @@
 			<if test="searchType == 'tc'.toString()">
 				AND (
 				cafename LIKE CONCAT('%', #{keyword}, '%')
-				OR content LIKE CONCAT('%', #{keyword}, '%')
+				OR content
+				LIKE CONCAT('%', #{keyword}, '%')
 				)
 			</if>
 			<if test="searchType == 'cw'.toString()">
 				AND (
 				content LIKE CONCAT('%', #{keyword}, '%')
-				OR writer LIKE CONCAT('%', #{keyword}, '%')
+				OR writer
+				LIKE CONCAT('%', #{keyword}, '%')
 				)
 			</if>
 			<if test="searchType == 'tcw'.toString()">
 				AND (
 				cafename LIKE CONCAT('%', #{keyword}, '%')
-				OR content LIKE CONCAT('%', #{keyword}, '%')
-				OR writer LIKE CONCAT('%', #{keyword}, '%')
+				OR content
+				LIKE CONCAT('%', #{keyword}, '%')
+				OR writer LIKE CONCAT('%',
+				#{keyword}, '%')
 				)
 			</if>
 		</if>
 	</sql>
-	
+
 	<!-- 댓글 갱신 SQL -->
-	<update id="updateReplyCnt">
+	<update id="updateReviewCnt">
 		UPDATE cafe_list
 		SET reviewcnt = reviewcnt + #{amount}
 		WHERE cno = #{cno}
 	</update>
 	
+	<!-- 리뷰 평점  -->
+	<update id="updateScoreCnt">
+		UPDATE cafe_list
+		SET scorecnt = scorecnt + (select score from cafe_review order by regdate desc limit 1)
+		WHERE cno = #{cno}
+	</update>
+
 	<!-- 게시글 조회수 갱신 SQL -->
 	<update id="updateViewCnt">
 		UPDATE cafe_list
 		SET viewcnt = viewcnt + 1
-		WHERE cno = #{cno}
+		WHERE cno =
+		#{cno}
 	</update>
-	
-	    <!--회원이 작성한 게시글 목록-->
-    <select id="userCafeList" resultType="com.cafe.main.domain.CafeListVO">
-        SELECT
-            *
-        FROM cafe_list
-        WHERE writer = #{uid}
-        ORDER BY cno DESC, regdate DESC
-    </select>
+
+	<!--회원이 작성한 게시글 목록 -->
+	<select id="userCafeList"
+		resultType="com.cafe.main.domain.CafeListVO">
+		SELECT
+		*
+		FROM cafe_list
+		WHERE writer = #{uid}
+		ORDER BY cno DESC, regdate DESC
+	</select>
 
 </mapper>

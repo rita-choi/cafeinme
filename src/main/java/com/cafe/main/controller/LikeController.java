@@ -85,9 +85,9 @@ public class LikeController {
 	                                                               @PathVariable("rno") Integer rno) {
 	        ResponseEntity<Map<String, Object>> entity = null;
 	        try {
-	            int replyLikeTotalCount = likeService.countReviewLikes(rno);
+	            int reviewLikeTotalCount = likeService.countReviewLikes(rno);
 	            Map<String, Object> map = new HashMap<>();
-	            map.put("reviewLikeTotalCount", replyLikeTotalCount);
+	            map.put("reviewLikeTotalCount", reviewLikeTotalCount);
 	            entity = new ResponseEntity<>(map, HttpStatus.OK);
 	        } catch (Exception e) {
 	            e.printStackTrace();

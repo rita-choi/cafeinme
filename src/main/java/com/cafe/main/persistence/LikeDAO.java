@@ -17,5 +17,9 @@ public interface LikeDAO {
     // 리뷰 추천 여부
     public boolean checkReviewLike(Integer rno, String uid) throws Exception;
 	
+    // 리뷰 추천 전체 삭제
+    public void deleteReviewAllLike(int cno) throws Exception;
+
+    
 }
 

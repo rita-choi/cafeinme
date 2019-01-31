@@ -14,6 +14,8 @@ public interface ReviewDAO {
 	void update(ReviewVO reviewVO) throws Exception;
 
 	void delete(int rno) throws Exception;
+	
+	void deleteAll(int cno) throws Exception;
 
 	// 페이징 처리
 	List<ReviewVO> listPaging(int cno, Criteria criteria) throws Exception;

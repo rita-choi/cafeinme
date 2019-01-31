@@ -47,6 +47,12 @@ public class ReviewDAOImpl implements ReviewDAO{
 		// TODO Auto-generated method stub
 		sqlSession.delete(NAMESPACE + ".delete", rno);
 	}
+	
+	@Override
+	public void deleteAll(int cno) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".deleteAll", cno);
+	}
 
 	@Override
 	public List<ReviewVO> listPaging(int cno, Criteria criteria) throws Exception {

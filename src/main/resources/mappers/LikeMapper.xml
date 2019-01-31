@@ -39,5 +39,10 @@
         WHERE rno = #{rno}
               AND uid = #{uid}
     </select>
+    
+      <delete id="deleteReviewLikeAll">
+		DELETE FROM review_likes
+		WHERE cno = #{cno}
+	</delete>
 
 </mapper>

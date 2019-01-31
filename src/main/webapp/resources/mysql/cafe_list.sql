@@ -20,3 +20,4 @@ PRIMARY KEY (cno)
 -- 리뷰 수, 리뷰 평점 컬럼 추가
 ALTER TABLE cafe_list ADD COLUMN reviewcnt int DEFAULT 0;
 ALTER TABLE cafe_list ADD COLUMN scorecnt int DEFAULT 0;
+ALTER TABLE cafe_list ADD COLUMN attachcnt int DEFAULT 0;

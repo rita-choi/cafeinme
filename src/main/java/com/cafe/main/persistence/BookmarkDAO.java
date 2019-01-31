@@ -16,4 +16,7 @@ public interface BookmarkDAO {
 
     // 북마크 삭제
     public void delete(int cno, String uid) throws Exception;
+    
+    // 북마크 전체 삭제
+    public void deleteAll(int cno) throws Exception;
 }

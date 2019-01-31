@@ -19,10 +19,14 @@ public class UploadFileUtils {
 
 	// 파일 업로드 처리
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
+		
+        logger.info("=======================uploadFile=======================" + uploadPath + "======================");
 		// 중복된 이름의 파일을 저장하지 않기 위해 UUID 키값 생성
 		UUID uuid = UUID.randomUUID();
 		// 실제 저장할 파일명 = UUID + _ + 원본파일명
 		String savedName = uuid.toString() + "_" + originalName;
+		logger.info("=============== 실제 저장할 팔일명 ============ " + originalName );
+		logger.info("=============== PATH =================== " + uuid.toString());
 		// 날짜 경로 = 년 + 월 + 일
 		String savedPath = calcPath(uploadPath);
 		// 파일 객체 생성 = 기본 저장경로 + 날짜경로 + UUID_파일명
@@ -37,9 +41,11 @@ public class UploadFileUtils {
 		if (MediaUtils.getMediaType(formatName) != null) {
 			// 썸네일 이미지 생성, 썸네일 이미지 파일명
 			uploadFileName = makeThumbnail(uploadPath, savedPath, savedName);
+			logger.info("=============== 이미지 파일명 ============ " + uploadFileName );
 		} else {
 			// 파일 아이콘 생성,
 			uploadFileName = makeIcon(uploadPath, savedPath, savedName);
+			logger.info("=============== 일반 파일명 ============ " + uploadFileName );
 		}
 		// 업로드 파일명 반환
 		return uploadFileName;
@@ -83,10 +89,13 @@ public class UploadFileUtils {
 		// BufferedImage : 실제 이미지 X, 메모리상의 이미지를 의미하는 객체
 		// 원본 이미지파일을 메모리에 로딩
 		BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path, fileName));
+		
+        logger.info("=======================Name=======================" + fileName + "======================");
 		// 정해진 크기에 맞게 원본이미지를 축소
 		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
 		// 썸네일 이미지 파일명
 		String thumbnailName = uploadPath + path + File.separator + "s_" + fileName;
+		 logger.info("=======================FileName=======================" + thumbnailName + "======================");
 		// 썸네일 이미지 파일 객체 생성
 		File newFile = new File(thumbnailName);
 		// 파일 확장자 추출
@@ -118,6 +127,7 @@ public class UploadFileUtils {
 			String end = fileName.substring(14);
 			// 원본 이미지 파일 삭제(구분자 변환)
 			new File(uploadPath + (front + end).replace('/', File.separatorChar)).delete();
+			logger.info("============== 삭제 완료 ===============");
 		}
 		// 파일 삭제(일반 파일 or 썸네일 이미지 파일 삭제)
 		new File(uploadPath + fileName.replace('/', File.separatorChar)).delete();

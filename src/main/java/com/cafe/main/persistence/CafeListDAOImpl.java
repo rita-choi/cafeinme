@@ -61,13 +61,18 @@ public class CafeListDAOImpl implements CafeListDAO{
 	}
 
 	@Override
-	public void updateReplyCnt(int cno, int amount) throws Exception {
+	public void updateReviewCnt(int cno, int amount) throws Exception {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("cno", cno);
 		paramMap.put("amount", amount);
 		
-		sqlSession.update(NAMESPACE + ".updateReplyCnt", paramMap);
+		sqlSession.update(NAMESPACE + ".updateReviewCnt", paramMap);
 		
+	}
+	
+	@Override
+	public void updateScoreCnt(int cno) throws Exception {
+		sqlSession.update(NAMESPACE + ".updateScoreCnt", cno);
 	}
 
 	@Override

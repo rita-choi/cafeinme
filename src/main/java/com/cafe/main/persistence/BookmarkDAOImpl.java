@@ -52,4 +52,10 @@ public class BookmarkDAOImpl implements BookmarkDAO {
 
         sqlSession.delete(NAMESPACE + ".delete",paramMap);
     }
+    
+    @Override
+	public void deleteAll(int cno) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".deleteAll", cno);
+	}
 }

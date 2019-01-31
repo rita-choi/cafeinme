@@ -49,6 +49,8 @@ import com.cafe.main.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
+	   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Inject
     private UserService userService;
@@ -63,8 +65,8 @@ public class UserController {
     private BookmarkService bookmarkService;
 
 
- //   @Resource(name = "uimagePath")
- //   private String uimagePath;
+    @Resource(name = "uimagePath")
+    private String uimagePath;
 
     // 회원가입 페이지
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -82,9 +84,8 @@ public class UserController {
         redirectAttributes.addFlashAttribute("msg", "REGISTERED");
         return "redirect:/user/login";
     }
-
     // 회원 프로필 이미지 수정처리
-  /*  @RequestMapping(value = "/modify/image", method = RequestMethod.POST)
+    @RequestMapping(value = "/modify/image", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     public String userImgModify(String uid,
                                 MultipartFile file,
                                 HttpSession session,
@@ -93,7 +94,16 @@ public class UserController {
             redirectAttributes.addFlashAttribute("msg", "FAIL");
             return "redirect:/user/profile";
         }
+        
+        logger.info("========================================= FILE UPLOAD =========================================");
+        logger.info("ORIGINAL FILE NAME : " + file.getOriginalFilename());
+        logger.info("FILE SIZE : " + file.getSize());
+        logger.info("CONTENT TYPE : " + file.getContentType());
+        logger.info("===============================================================================================");
+        
         String uploadFile = UploadFileUtils.uploadFile(uimagePath, file.getOriginalFilename(), file.getBytes());
+        
+        logger.info("=======================uploadFile=======================" + uploadFile + "======================");
         String front = uploadFile.substring(0, 12);
         String end = uploadFile.substring(14);
         String uimage = front + end;
@@ -105,7 +115,7 @@ public class UserController {
         redirectAttributes.addFlashAttribute("msg", "SUCCESS");
         return "redirect:/user/profile";
     }
-*/
+
     // 회원정보 수정처리
     @RequestMapping(value = "/modify/info", method = RequestMethod.POST)
     public String userInfoModify(UserVO userVO, HttpSession session,
@@ -143,7 +153,8 @@ public class UserController {
         redirectAttributes.addFlashAttribute("msg", "SUCCESS");
         return "redirect:/user/profile";
     }
-
+    
+    
     // 로그인 페이지
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginGET(@ModelAttribute("loginDTO") LoginDTO loginDTO) {

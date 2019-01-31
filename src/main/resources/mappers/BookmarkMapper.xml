@@ -46,6 +46,13 @@
         WHERE cno = #{cno}
               AND uid = #{uid}
     </delete>
+    
+     <!-- 카페 관련 북마크 삭제 -->
+	<delete id="deleteAll">
+		DELETE FROM cafe_bookmark
+		WHERE cno = #{cno}
+	</delete>
+    
 
     <resultMap id="bookmarkVOResultMap" type="com.cafe.main.domain.BookmarkVO">
         <id property="bmno" column="bmno"/>

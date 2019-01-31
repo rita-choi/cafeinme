@@ -27,14 +27,14 @@ import com.cafe.main.service.ReviewService;
  */
 @Controller
 @RequestMapping("/reviews")
-public class ReplyController {
+public class ReviewController {
 
-	private static final Logger logger = LoggerFactory.getLogger(ReplyController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
 
 	private final ReviewService replyService;
 
 	@Inject
-	public ReplyController(ReviewService replyService) {
+	public ReviewController(ReviewService replyService) {
 		this.replyService = replyService;
 	}
 

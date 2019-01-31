@@ -20,7 +20,7 @@
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/skins/skin-blue.min.css">
-
+  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/font-awesome.min.css">
  <%--fileupload--%>
     <link rel="stylesheet" media="screen" href="${pagContext.request.contextPath}/bower_components/fileupload/css/jasny-bootstrap.min.css">
     <%--lightbox--%>

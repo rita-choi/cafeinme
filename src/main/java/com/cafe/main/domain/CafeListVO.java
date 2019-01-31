@@ -17,6 +17,10 @@ public class CafeListVO {
 	private int scorecnt; // 총 리뷰 평점
 	// 댓글 작성자 정보
 	private UserVO userVO;
+    // 게시글 첨부파일
+    private String[] files;
+    // 게시글 첨부파일 갯수
+    private int attachcnt;
 
 	public int getCno() {
 		return cno;
@@ -113,5 +117,24 @@ public class CafeListVO {
 	public void setUserVO(UserVO userVO) {
 		this.userVO = userVO;
 	}
+	
+
+    public String[] getFiles() {
+        return files;
+    }
+
+    public void setFiles(String[] files) {
+        this.files = files;
+		setAttachcnt(files.length);
+		// CafeListVO가 스스로 첨부파일 개수의 상태를 가질 수 있게 설정 : 외부에서 호출해주지 않아도 됨
+    }
+
+    public int getAttachcnt() {
+        return attachcnt;
+    }
+
+    public void setAttachcnt(int attachcnt) {
+        this.attachcnt = attachcnt;
+    }
 
 }

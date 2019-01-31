@@ -58,14 +58,14 @@
 	<!--게시글 첨부 파일 저장 경로 설정 -->
 	<bean id="uploadPath" class="java.lang.String">
 		<constructor-arg
-			value="C:\\java\\cafeinme-project\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\upload_files">
+			value="C:\\java\\cafeinme-2019\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\upload_files">
 		</constructor-arg>
 	</bean>
 
 	<!--프로필 이미지 파일 저장 경로 설정 -->
 	<bean id="uimagePath" class="java.lang.String">
 		<constructor-arg
-			value="C:\\java\\cafeinme-project\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\profile">
+			value="C:\\java\\cafeinme-2019\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\profile">
 		</constructor-arg>
 	</bean>
 

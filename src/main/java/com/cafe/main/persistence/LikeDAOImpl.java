@@ -42,4 +42,10 @@ public class LikeDAOImpl implements LikeDAO {
 
         return sqlSession.selectOne(NAMESPACE + ".checkReviewLike", paramMap);
     }
+    
+    @Override
+	public void deleteReviewAllLike(int cno) throws Exception {
+		sqlSession.delete(NAMESPACE+".deleteReviewLikeAll", cno);
+		
+	}
 }

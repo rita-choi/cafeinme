@@ -14,8 +14,18 @@ public class ReviewVO {
     private UserVO userVO;
       // 카페  정보
     private CafeListVO cafelistVO;
+    // 댓글 추천수
+    private Integer rlnocount;
     
     
+
+	public Integer getRlnocount() {
+		return rlnocount;
+	}
+
+	public void setRlnocount(Integer rlnocount) {
+		this.rlnocount = rlnocount;
+	}
 
 	public UserVO getUserVO() {
 		return userVO;

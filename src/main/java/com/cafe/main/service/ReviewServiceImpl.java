@@ -28,7 +28,6 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public List<ReviewVO> list(int cno) throws Exception {
-		// TODO Auto-generated method stub
 		return reviewDAO.list(cno);
 	}
 
@@ -36,15 +35,14 @@ public class ReviewServiceImpl implements ReviewService {
 	@Transactional // 트랜잭션 처리
 	@Override
 	public void create(ReviewVO reviewVO) throws Exception {
-		// TODO Auto-generated method stub
 		reviewDAO.create(reviewVO);
-		cafelistDAO.updateReplyCnt(reviewVO.getCno(), 1);
+		cafelistDAO.updateReviewCnt(reviewVO.getCno(), 1);
+		cafelistDAO.updateScoreCnt(reviewVO.getCno()); // 평점 처리
 		
 	}
 
 	@Override
 	public void update(ReviewVO replyVO) throws Exception {
-		// TODO Auto-generated method stub
 		reviewDAO.update(replyVO);
 	}
 
@@ -57,7 +55,8 @@ public class ReviewServiceImpl implements ReviewService {
 
 		int cno = reviewDAO.getCafeNo(rno);
 		reviewDAO.delete(rno);
-		cafelistDAO.updateReplyCnt(cno, -1); // 댓글 감소
+		cafelistDAO.updateReviewCnt(cno, -1); // 댓글 감소
+		cafelistDAO.updateReviewCnt(cno, 1); // 평점 처리
 
 	}
 

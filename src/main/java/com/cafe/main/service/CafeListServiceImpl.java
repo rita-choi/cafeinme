@@ -13,20 +13,53 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cafe.main.commons.paging.Criteria;
 import com.cafe.main.commons.paging.SearchCriteria;
 import com.cafe.main.domain.CafeListVO;
+import com.cafe.main.persistence.BookmarkDAO;
 import com.cafe.main.persistence.CafeListDAO;
+import com.cafe.main.persistence.LikeDAO;
+import com.cafe.main.persistence.ReviewDAO;
+import com.cafe.main.persistence.UploadDAO;
 
 @Service
 public class CafeListServiceImpl implements CafeListService {
 
+
 	@Inject
 	private CafeListDAO cafelistDAO;
 
+	@Inject
+	private UploadDAO uploadDAO;
+
+	@Inject
+	private LikeDAO likeDAO;
+
+	@Inject
+	private ReviewDAO reviewDAO;
+
+	@Inject
+	private BookmarkDAO bookmarkDAO;
+
+	
 	// 카페글 입력 처리
 	@Transactional
 	@Override
 	public void createCafeList(CafeListVO vo) throws Exception {
-		cafelistDAO.createCafeList(vo);
+		
 		// 첨부파일 처리는 추가 필요
+		String[] files = vo.getFiles();
+
+		if (files == null) {
+			cafelistDAO.createCafeList(vo);
+			return;
+		}
+		
+		vo.setAttachcnt(files.length);
+		cafelistDAO.createCafeList(vo);
+		int cno = vo.getCno();
+		
+		// 첨부파일 입력처리
+		for (String fileName : files) {
+			uploadDAO.addAttach(fileName, cno);
+		}
 	}
 
 	// 카페글 상세 조회 + 게시글 조회수 갱신
@@ -54,18 +87,53 @@ public class CafeListServiceImpl implements CafeListService {
 	}
 
 	// 카페글 수정
-	@Override
-	public void updateCafeList(CafeListVO vo) throws Exception {
-		cafelistDAO.updateCafeList(vo);
-		// 첨부파일  처리는 추가 필요
-	}
+		@Transactional
+		@Override
+		public void updateCafeList(CafeListVO vo) throws Exception {
+			int cno = vo.getCno();
+			// Primary Key가 Duplicate 되지 않도록 전체 파일 내역을 삭제
+			uploadDAO.deleteAllAttach(cno);
+			
+			String[] files = vo.getFiles();
+			
+			
+			// 첨부파일이 없을 경우
+			if (files == null) {
+			
+				vo.setAttachcnt(0);
+				cafelistDAO.updateCafeList(vo);
+				return;
+			}
 
-	// 카페글 삭제
-	@Override
-	public void deleteCafeList(int cno) throws Exception {
-		cafelistDAO.deleteCafeList(cno);
-		// 첨부파일 처리는 추가 필요
-	}
+			
+			cafelistDAO.updateCafeList(vo);
+
+			// 첨부파일 입력처리
+			for (String fullName : files) {
+				uploadDAO.replaceAttach(fullName, cno);
+			}
+		}
+
+		// 카페글 삭제
+		@Override
+		public void deleteCafeList(int cno) throws Exception {
+
+			// 카페글 관련 내용 삭제
+			uploadDAO.deleteAllAttach(cno);
+			bookmarkDAO.deleteAll(cno);
+
+			// 댓글 관련 내용 삭제
+			likeDAO.deleteReviewAllLike(cno);
+			reviewDAO.deleteAll(cno);
+
+			// 첨부파일 삭제
+			uploadDAO.deleteAllAttach(cno);
+			
+			// 그 이후 마지막으로 내용 삭제
+			cafelistDAO.deleteCafeList(cno);
+
+		}
+
 
 	// 카페글 목록 + 페이징 + 검색
 	@Override

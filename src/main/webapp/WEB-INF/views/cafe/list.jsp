@@ -18,6 +18,7 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
+<%@ include file="../include/footerjs.jsp"%>
 <%@ include file="../include/head.jsp"%>
 <!-- REQUIRED JS SCRIPTS -->
 
@@ -110,7 +111,8 @@ desired effect
 											<td>${cafelist.cno}</td>
 											<td><a
 												href="${path}/cafe/read${pageMaker.makeSearch(pageMaker.criteria.page)}&cno=${cafelist.cno}">${cafelist.cafename}</a>
-												<span class="badge bg-teal"><i class="fa fa-comment-o"></i> +${cafelist.reviewcnt} </span></td>
+												<span class="badge bg-teal"><i class="fa fa-comment-o"></i> +${cafelist.reviewcnt} </span>
+												 <span class="badge bg-aqua"><i class="fa fa-paperclip"></i> ${cafelist.attachcnt}</span></td>
 											<td>${cafelist.writer}</td>
 
 											<td><fmt:formatDate value="${cafelist.updatedate}"
