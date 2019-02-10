@@ -104,16 +104,26 @@ public class CafeListDAOImpl implements CafeListDAO{
 	}
 
 	@Override
-	public List<CafeListVO> listCriteria(Criteria criteria) throws Exception {
+	public List<CafeListVO> userCafeList(String uid) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE + ".listCriteria", criteria);
+		 return sqlSession.selectList(NAMESPACE + ".userCafeList", uid);
 	}
 
 
 	@Override
-	public List<CafeListVO> userCafeList(String uid) throws Exception {
-		// TODO Auto-generated method stub
-		 return sqlSession.selectList(NAMESPACE + ".userCafeList", uid);
+	public Integer countScores(int cno) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".countScores", cno);
+		
+	}
+
+
+	@Override
+	public void updateCimage(int cno, String cimage) throws Exception {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("cno", cno);
+		paramMap.put("cimage", cimage);
+		sqlSession.update(NAMESPACE + ".updateCimage", paramMap);
+		
 	}
 
 }

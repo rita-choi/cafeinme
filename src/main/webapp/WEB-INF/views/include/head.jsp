@@ -1,12 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Starter</title>
+  <title>카페와 나 | 당신의 카페는 어디인가요? </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="${pagContext.request.contextPath}/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -15,12 +16,14 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="${pagContext.request.contextPath}/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/AdminLTE.min.css?ver=4">
+    <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/swiper.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/skins/skin-blue.min.css?ver=4">
   <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/font-awesome.min.css">
+
  <%--fileupload--%>
     <link rel="stylesheet" media="screen" href="${pagContext.request.contextPath}/bower_components/fileupload/css/jasny-bootstrap.min.css">
     <%--lightbox--%>
@@ -42,6 +45,5 @@
   <![endif]-->
 
   <!-- Google Font -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
 </head>

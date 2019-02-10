@@ -2,10 +2,10 @@ package com.cafe.main.domain;
 
 public class ReviewLikeVO {
 
-	private Integer rno;
-	private Integer rlno;
-	private Integer cno;
-	private String uid;
+	private Integer rno; // 리뷰 번호
+	private Integer rlno; // 추천 번호
+	private Integer cno; // 카페 번호
+	private String uid; // 아이디
 	
 
 	public String getUid() {

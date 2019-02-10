@@ -21,3 +21,6 @@ PRIMARY KEY (cno)
 ALTER TABLE cafe_list ADD COLUMN reviewcnt int DEFAULT 0;
 ALTER TABLE cafe_list ADD COLUMN scorecnt int DEFAULT 0;
 ALTER TABLE cafe_list ADD COLUMN attachcnt int DEFAULT 0;
+
+-- 대표이미지 파일명 추가
+ALTER TABLE cafe_list ADD COLUMN cimage VARCHAR(100) NOT NULL DEFAULT '/default-cafe-image.jpg';

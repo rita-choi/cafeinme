@@ -31,11 +31,11 @@ public class ReviewController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
 
-	private final ReviewService replyService;
+	private final ReviewService reviewService;
 
 	@Inject
-	public ReviewController(ReviewService replyService) {
-		this.replyService = replyService;
+	public ReviewController(ReviewService reviewService) {
+		this.reviewService = reviewService;
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class ReviewController {
 		ResponseEntity<String> entity = null;
 
 		try {
-			replyService.create(replyVO);
+			reviewService.create(replyVO);
 			entity = new ResponseEntity<>("regSuccess", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,7 +70,7 @@ public class ReviewController {
 
 		try {
 
-			entity = new ResponseEntity<>(replyService.list(cno), HttpStatus.OK);
+			entity = new ResponseEntity<>(reviewService.list(cno), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -88,7 +88,7 @@ public class ReviewController {
 
 		try {
 			reviewVO.setRno(rno);
-			replyService.update(reviewVO);
+			reviewService.update(reviewVO);
 			entity = new ResponseEntity<>("modSuccess", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,7 +104,7 @@ public class ReviewController {
 		ResponseEntity<String> entity = null;
 
 		try {
-			replyService.delete(rno);
+			reviewService.delete(rno);
 			entity = new ResponseEntity<>("delSuccess", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,8 +124,8 @@ public class ReviewController {
 			Criteria criteria = new Criteria();
 			criteria.setPage(page);
 			
-			List<ReviewVO> replies = replyService.getReviewsPaging(cno, criteria);
-			int repliesCount = replyService.countReviews(cno);
+			List<ReviewVO> replies = reviewService.getReviewsPaging(cno, criteria);
+			int repliesCount = reviewService.countReviews(cno);
 			
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCriteria(criteria);

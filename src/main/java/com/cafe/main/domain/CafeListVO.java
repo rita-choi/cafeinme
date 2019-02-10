@@ -4,23 +4,25 @@ import java.util.Date;
 
 public class CafeListVO {
 
-	private int cno;
-	private String cafename;
-	private String content;
-	private String location;
-	private String writer;
-	private Date regdate;
-	private Date updatedate;
-	private int viewcnt;
+	private int cno; // 카페 번호
+	private String cafename; // 카페 이름
+	private String content; // 카페 설명
+	private String location; // 카페 위치
+	private String writer; // 작성자
+	private Date regdate; // 등록일
+	private Date updatedate; // 수정일
+	private int viewcnt; // 조회수
 	private int mymenu; // 나만의 메뉴 설정 가능 여부
-	private int reviewcnt;
-	private int scorecnt; // 총 리뷰 평점
+	private int reviewcnt; // 리뷰 총 개수
+	private Integer scorecnt; // 총 리뷰 평점
 	// 댓글 작성자 정보
 	private UserVO userVO;
     // 게시글 첨부파일
     private String[] files;
     // 게시글 첨부파일 갯수
     private int attachcnt;
+    // 카페 대표 이미지
+    private String cimage;
 
 	public int getCno() {
 		return cno;
@@ -102,11 +104,13 @@ public class CafeListVO {
 		this.reviewcnt = reviewcnt;
 	}
 
-	public int getScorecnt() {
+
+
+	public Integer getScorecnt() {
 		return scorecnt;
 	}
 
-	public void setScorecnt(int scorecnt) {
+	public void setScorecnt(Integer scorecnt) {
 		this.scorecnt = scorecnt;
 	}
 
@@ -136,5 +140,15 @@ public class CafeListVO {
     public void setAttachcnt(int attachcnt) {
         this.attachcnt = attachcnt;
     }
+
+	public String getCimage() {
+		return cimage;
+	}
+
+	public void setCimage(String cimage) {
+		this.cimage = cimage;
+	}
+    
+    
 
 }

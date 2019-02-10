@@ -48,16 +48,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						//전역 변수
 						var cno = ${cafelist.cno}; //현재 게시글 번호
 				        var uid = "${login.uid}";
-				        var score = "";
+				        var score = 5;
+				        
+				        var finalscore = ${cafelist.scorecnt} /${cafelist.reviewcnt};
 				        
 				        $('input[name="score"]').click(function(){
 				        	  score = $('input[name="score"]:checked').val();
 				        });
-				     
-				        var finalscore =  parseFloat(${cafelist.scorecnt}/${cafelist.reviewcnt}).toFixed(1);
 				        
 				        if(${cafelist.scorecnt} != 0 && ${cafelist.reviewcnt} != 0) {
-				        $("#scorecnt").text(finalscore);
+				        $("#scorecnt").text(parseFloat(finalscore).toFixed(1));
 				        }else if(${cafelist.scorecnt} == 0){
 				        $("#scorecnt").text("카페에 대한 리뷰와 평점을 남겨주세요!");
 				        }
@@ -105,6 +105,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										$("#reviewTemplate"));
 								printReviewPaging(data.pageMaker,
 										$(".pagination"));
+
+							
 								
 								 // 4. 댓글 추천여부 확인
 				                $(".reviewDiv").each(function () {
@@ -120,10 +122,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	                                totalCountReviewLike(rno, reviewLike);
 
 				                })
+				                // 6. 평점 갱신
+				            	getScores("/cafe/score/" + cno, data.pageMaker.totalCount);
 							});
 							
 							
 						}
+						
+						//평점 갱신
+						function getScores(scoreUri, totalCount){
+							$.getJSON(scoreUri, function(data){
+								$("#scorecnt").text(parseFloat(data/totalCount).toFixed(1));
+							});
+						}
+						
+				
 						function printReviewCount(totalCount) {
 
 							//리뷰 없을 시
@@ -194,7 +207,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											var reviewerVal = reviewerObj
 													.val();
 											
-											console.log("리뷰 총점은 " +  score + "입니다");
 												//AJAX 통신 : POST
 											$
 													.ajax({
@@ -225,8 +237,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 															reviewTextObj
 																	.val(""); // 리뷰 입력창 공백처리
 															// 평점 버튼 초기화
-															$('input[name="score"]:checked').attr("checked", false);
-															$("#scorecnt").text(finalscore);
+															$('input[name="score"]:checked').removeAttr("checked");
 															
 														}
 													});
@@ -259,6 +270,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 													.parent().find(
 															"#delreviewNo")
 													.val();
+											
+											
+											console.log("클릭한 리뷰 번호 :" + reviewNo);
 											$
 													.ajax({
 														type : "delete",
@@ -284,6 +298,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 																		+ cno
 																		+ "/"
 																		+ reviewPageNum);//리뷰 목록 출력 함수 호출
+															     // 평점 갱신
+												            	getScores("/cafe/score/" + cno, data.pageMaker.totalCount);
 															}
 														}
 													});
@@ -293,15 +309,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										"click",
 										function() {
 											// 리뷰 선택자
-											var review = $(this).parent()
-													.parent();
+											var review = $(this).parent().parent();
 											// 리뷰 선택 번호
-											var reviewNo = review.find(
-													"#modreviewNo").val();
-
+											var reviewNo = review.find("#modreviewNo").val();
+											
+											
 											//수정한 리뷰 내용
 											var reviewText = review.find(
 													"#reviewText").val();
+											
+											var newScore = review.find(".newScore").val();
+											console.log("평점 수정 : " + newScore);
+											
 											$
 													.ajax({
 														type : "put",
@@ -313,7 +332,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 														},
 														data : JSON
 																.stringify({
-																	reviewtxt : reviewText
+																	reviewtxt : reviewText,
+																	score : newScore
 																}),
 														dataType : "text",
 														success : function(
@@ -526,15 +546,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
   white-space: nowrap;
   cursor: pointer;
   font-size: 200%;
-  color: #16a085;
+  color: #f0b111;
 }
 .star-rating > fieldset:not(:checked) > label:before {
   content: '\f006  ';
 }
 .star-rating > fieldset:not(:checked) > label:hover,
 .star-rating > fieldset:not(:checked) > label:hover ~ label {
-  color: #1abc9c;
-  text-shadow: 0 0 3px #1abc9c;
+  color: #f0b111;
+  text-shadow: 0 0 3px #f0b111;
 }
 .star-rating > fieldset:not(:checked) > label:hover:before,
 .star-rating > fieldset:not(:checked) > label:hover ~ label:before {
@@ -720,6 +740,15 @@ desired effect
 										<input type="hidden" class="reviewNo" id="modreviewNo" />
 										<textarea class="form-control" id="reviewText" rows="3"
 											style="resize: none"></textarea>
+									  <div class="star-rating Modstar">
+  <fieldset>
+    <input type="radio" id="star5" name="score" value="5" checked/><label for="star5" title="Outstanding">5 stars</label>
+    <input type="radio" id="star4" name="score" value="4" /><label for="star4" title="Very Good">4 stars</label>
+    <input type="radio" id="star3" name="score" value="3" /><label for="star3" title="Good">3 stars</label>
+    <input type="radio" id="star2" name="score" value="2" /><label for="star2" title="Poor">2 stars</label>
+    <input type="radio" id="star1" name="score" value="1" /><label for="star1" title="Very Poor">1 star</label>
+  </fieldset>
+</div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default pull-left"

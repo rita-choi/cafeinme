@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.util.FileCopyUtils;
 
+import com.cafe.main.domain.CafeListVO;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -42,12 +44,9 @@ public class UploadFileUtils {
 			// 썸네일 이미지 생성, 썸네일 이미지 파일명
 			uploadFileName = makeThumbnail(uploadPath, savedPath, savedName);
 			logger.info("=============== 이미지 파일명 ============ " + uploadFileName );
-		} else {
-			// 파일 아이콘 생성,
-			uploadFileName = makeIcon(uploadPath, savedPath, savedName);
-			logger.info("=============== 일반 파일명 ============ " + uploadFileName );
-		}
+		} 
 		// 업로드 파일명 반환
+
 		return uploadFileName;
 	}
 

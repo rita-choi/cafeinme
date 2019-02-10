@@ -29,9 +29,6 @@ public interface CafeListDAO {
 	// 페이징 처리 목록 + 검색 기능
 	List<CafeListVO> cafeListSearch(SearchCriteria searchCriteria) throws Exception;
 	
-	//페이징 처리 심화
-	List<CafeListVO> listCriteria(Criteria criteria) throws Exception;
-	
 	// 전체 게시글 갯수
 	int countLists(Criteria criteria) throws Exception;
 	
@@ -50,6 +47,11 @@ public interface CafeListDAO {
 	// 회원이 작성한 카페글 목록
     public List<CafeListVO> userCafeList(String uid) throws Exception;
     
-
+    //평점 불러옴
+    Integer countScores(int cno) throws Exception;
+    
+    //카페 대표 이미지 수정
+	public void updateCimage(int cno, String cimage) throws Exception;
+    
 	
 }

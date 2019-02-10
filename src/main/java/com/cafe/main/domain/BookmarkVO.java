@@ -4,13 +4,11 @@ import java.util.Date;
 
 public class BookmarkVO {
 
-    private int bmno;
-    private int cno;
-    private String uid;
-    private Date regdate;
-    private CafeListVO cafelistVO;
-
-
+    private int bmno; // 북마크 번호
+    private int cno; // 카페 번호
+    private String uid; // 아이디
+    private Date regdate; // 북마크 등록일 
+    private CafeListVO cafelistVO; // 카페 정보
 
     public int getBmno() {
 		return bmno;

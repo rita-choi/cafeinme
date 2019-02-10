@@ -18,6 +18,7 @@
 		<result property="reviewcnt" column="reviewcnt" />
 		<result property="scorecnt" column="scorecnt" />
 		<result property="attachcnt" column="attachcnt" />
+		<result property="cimage" column="cimage"/>
 		<association property="userVO" resultMap="userVOResultMap" />
 	</resultMap>
 	
@@ -37,10 +38,10 @@
 		parameterType="com.cafe.main.domain.CafeListVO">
 		INSERT INTO cafe_list (cno, cafename, content,
 		location,
-		writer, viewcnt, mymenu , attachcnt) VALUES (#{cno},
+		writer, viewcnt, mymenu , attachcnt, cimage) VALUES (#{cno},
 		#{cafename},#{content}, #{location}, #{writer}, #{viewcnt},
 		#{mymenu},
-		#{attachcnt})
+		#{attachcnt}, #{cimage})
 	</insert>
 
 	<select id="read" resultType="com.cafe.main.domain.CafeListVO">
@@ -55,6 +56,7 @@
             , c.reviewcnt
             , c.scorecnt
             , c.attachcnt
+            , c.cimage
             , u.uimage
         FROM cafe_list c
             LEFT OUTER JOIN cafe_user u
@@ -64,29 +66,21 @@
 
 	<update id="update">
 		UPDATE cafe_list SET cafename=#{cafename},
-		content=#{content}, location=#{location}, attachcnt=#{attachcnt} WHERE cno = #{cno}
+		content=#{content}, location=#{location}, attachcnt=#{attachcnt}, cimage=#{cimage} WHERE cno = #{cno}
 	</update>
 
 	<delete id="delete">
 		DELETE FROM cafe_list WHERE cno = #{cno}
 	</delete>
 
-	<select id="listAll"
-		resultType="com.cafe.main.domain.CafeListVO">
-	<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, attachcnt FROM cafe_list WHERE cno > 0 ORDER BY cno DESC, regdate DESC]]>
-	</select>
 
-
-	<select id="listCriteria" resultMap="CafeListResultMap">
-			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, attachcnt FROM cafe_list WHERE cno > 0 ORDER BY cno DESC, updatedate DESC LIMIT #{page}, #{perPageNum}]]>
-	</select>
 
 	<select id="countLists" resultType="int">
 			<![CDATA[SELECT COUNT(cno) FROM cafe_list WHERE cno > 0]]>
 	</select>
 
 	<select id="listSearch" resultMap="CafeListResultMap">
-			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, reviewcnt, attachcnt FROM cafe_list WHERE cno> 0]]><include
+			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, reviewcnt, attachcnt, scorecnt, cimage FROM cafe_list WHERE cno> 0]]><include
 		refid="search" /><![CDATA[ ORDER BY cno DESC, updatedate DESC LIMIT #{pageStart}, #{perPageNum}]]>
 	</select>
 
@@ -140,11 +134,15 @@
 	</update>
 	
 	<!-- 리뷰 평점  -->
-	<update id="updateScoreCnt">
+	<update id="updateScoreCnt" >
 		UPDATE cafe_list
 		SET scorecnt = scorecnt + (select score from cafe_review order by regdate desc limit 1)
 		WHERE cno = #{cno}
 	</update>
+	
+	<select id="countScores"  resultType="Integer">
+		SELECT scorecnt from cafe_list WHERE cno=#{cno}
+	</select>
 
 	<!-- 게시글 조회수 갱신 SQL -->
 	<update id="updateViewCnt">

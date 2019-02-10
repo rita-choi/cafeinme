@@ -114,11 +114,11 @@ public class CafeListServiceImpl implements CafeListService {
 			}
 		}
 
-		// 카페글 삭제
+		// 카페 삭제
 		@Override
 		public void deleteCafeList(int cno) throws Exception {
 
-			// 카페글 관련 내용 삭제
+			// 카페 관련 내용 삭제
 			uploadDAO.deleteAllAttach(cno);
 			bookmarkDAO.deleteAll(cno);
 
@@ -153,22 +153,22 @@ public class CafeListServiceImpl implements CafeListService {
 		return cafelistDAO.countSearchedLists(searchCriteria);
 	}
 
-	// 카페 전체 목록 조회
-	@Override
-	public List<CafeListVO> listAll() throws Exception {
-		return cafelistDAO.listAll();
-	}
-
-	// 페이징 처리 목록 조회
-	@Override
-	public List<CafeListVO> listCriteria(Criteria criteria) throws Exception {
-		return cafelistDAO.listCriteria(criteria);
-	}
-
+	// 회원이 작성한 카페 목록
 	@Override
 	public List<CafeListVO> userCafeList(String uid) throws Exception {
-		// TODO Auto-generated method stub
 		return cafelistDAO.userCafeList(uid);
 	}
 
+	// 총 평점 조회
+	@Override
+	public Integer countScores(int cno) throws Exception {
+		return cafelistDAO.countScores(cno);
+	}
+
+	@Override
+	public void modifyCimage(int cno, String cimage) throws Exception {
+		cafelistDAO.updateCimage(cno, cimage);
+	}
+
+	
 }

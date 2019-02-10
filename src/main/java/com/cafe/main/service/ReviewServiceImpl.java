@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDAO.list(cno);
 	}
 
-	// 댓글 등록
+	// 리뷰 등록
 	@Transactional // 트랜잭션 처리
 	@Override
 	public void create(ReviewVO reviewVO) throws Exception {
@@ -46,7 +46,7 @@ public class ReviewServiceImpl implements ReviewService {
 		reviewDAO.update(replyVO);
 	}
 
-	// 댓글 삭제
+	// 리뷰 삭제
 
 	@Override
 	@Transactional // 트랜잭션 처리
@@ -55,8 +55,8 @@ public class ReviewServiceImpl implements ReviewService {
 
 		int cno = reviewDAO.getCafeNo(rno);
 		reviewDAO.delete(rno);
-		cafelistDAO.updateReviewCnt(cno, -1); // 댓글 감소
-		cafelistDAO.updateReviewCnt(cno, 1); // 평점 처리
+		cafelistDAO.updateReviewCnt(cno, -1); // 리뷰 감소
+		cafelistDAO.updateScoreCnt(cno); // 평점 처리
 
 	}
 

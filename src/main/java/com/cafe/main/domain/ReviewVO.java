@@ -3,12 +3,12 @@ package com.cafe.main.domain;
 import java.util.Date;
 
 public class ReviewVO {
-	private int rno;
-	private int cno;
-	private String reviewtxt;
-	private String reviewer;
-	private Date regdate;
-	private Date updatedate;
+	private int rno; // 리뷰 번호
+	private int cno; // 카페 번호
+	private String reviewtxt; // 리뷰 내용
+	private String reviewer; // 리뷰아
+	private Date regdate; // 리뷰 등록일
+	private Date updatedate; // 리뷰 수정일
 	private int score; // 리뷰 평점 
 	  // 리뷰 작성자 정보
     private UserVO userVO;

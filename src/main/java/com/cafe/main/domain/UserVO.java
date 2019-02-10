@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class UserVO {
 
-    private String uid;
-    private String upw;
-    private String uname;
-    private String uemail;
-    private Date regdate;
-    private Date logdate;
-    private String uimage;
+    private String uid; // 아이디
+    private String upw; // 비밀번호
+    private String uname; // 닉네임, 이름 
+    private String uemail; // 이메일
+    private Date regdate; // 가입 일자
+    private Date logdate; // 로그인 일자
+    private String uimage; // 프로필 이미지
 
     public String getUid() {
         return uid;

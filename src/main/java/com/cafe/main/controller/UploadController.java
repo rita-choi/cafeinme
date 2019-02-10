@@ -49,15 +49,15 @@ public class UploadController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     public ResponseEntity<String> uploadFile(MultipartFile file) throws Exception {
     	
-    	
+    	if(file.getContentType().contains("image")) {
         logger.info("========================================= FILE UPLOAD =========================================");
         logger.info("ORIGINAL FILE NAME : " + file.getOriginalFilename());
         logger.info("FILE SIZE : " + file.getSize());
         logger.info("CONTENT TYPE : " + file.getContentType());
         logger.info("===============================================================================================");
         return new ResponseEntity<>(UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
-    
-        
+    	}
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       
     }
 

@@ -9,9 +9,9 @@
     <%-- Logo --%>
     <a href="/" class="logo">
         <%-- mini logo for sidebar mini 50x50 pixels --%>
-        <span class="logo-mini"><b>S</b>E</span>
+        <span class="logo-mini"><i class="fa fa-coffee"></i></span>
         <%-- logo for regular state and mobile devices --%>
-        <span class="logo-lg"><b>Spring</b> - Examples</span>
+        <span class="logo-lg"><b>카페와</b> 나</span>
     </a>
 
     <%-- Header Navbar --%>

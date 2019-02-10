@@ -24,9 +24,6 @@ public interface CafeListService {
 	// 카페글 삭제
 	public void deleteCafeList(int cno) throws Exception;
 	
-	// 카페글 전체 목록 조회
-	public List<CafeListVO> listAll() throws Exception;
-
 	// 페이징 처리 목록 + 검색 기능
 	public List<CafeListVO> cafeListSearch(SearchCriteria searchCriteria) throws Exception;
 
@@ -36,9 +33,11 @@ public interface CafeListService {
 	// 검색 게시글 갯수
 	public int countSearchedLists(SearchCriteria searchCriteria) throws Exception;
 
-    // 게시글 목록 + 페이징
-    public List<CafeListVO> listCriteria(Criteria criteria) throws Exception;
-    
     // 회원이 작성한 카페글 목록 
     public List<CafeListVO> userCafeList(String uid) throws Exception;
+    
+    public Integer countScores(int cno) throws Exception;
+    
+    // 카페 대표 이미지 수정
+    public void modifyCimage(int cno, String cimage) throws Exception;
 }
