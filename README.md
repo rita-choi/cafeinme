@@ -2,10 +2,11 @@
 프로젝트 기간 : 2017.02~2017.03
 <br><br>
 디저트 공유 플랫폼 '카페인미' 개발
-프로젝트의 목적: 위치 검색을 결합한 카페, 디저트 맛집을 소개하는 소통 플랫폼 개발
-당시 프로젝트 사용 스택: JAVA, Spring Framework, Tomcat, JSP, HTML5, AJAX, Javascript
-당시 프로젝트 사용 툴: Eclipse, Oracle Database
-개선된 툴: 프로젝트 규모를 고려하여 MySQL로 이전
+<br><br>
+프로젝트의 목적: 위치 검색을 결합한 카페, 디저트 맛집을 소개하는 소통 플랫폼 개발 <br>
+당시 프로젝트 사용 스택: JAVA, Spring Framework, Tomcat, JSP, HTML5, AJAX, Javascript<br>
+당시 프로젝트 사용 툴: Eclipse, Oracle Database<br>
+개선된 툴: 프로젝트 규모를 고려하여 MySQL로 이전<br>
 
 구현된 기능
 1. 회원제 기능: 로그인, 로그아웃, 세션 유지, 마이페이지, 로그인 시에만 이용 가능
