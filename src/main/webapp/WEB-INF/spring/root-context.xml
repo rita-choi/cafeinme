@@ -68,13 +68,7 @@
 			value="C:\\Users\\ritam\\git\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\profile">
 		</constructor-arg>
 	</bean>
-	
-		<!--카페 대표 이미지 파일 저장 경로 설정 -->
-	<bean id="cimagePath" class="java.lang.String">
-		<constructor-arg
-			value="C:\\Users\\ritam\\git\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\cafe">
-		</constructor-arg>
-	</bean>
+
 	
 
 </beans>

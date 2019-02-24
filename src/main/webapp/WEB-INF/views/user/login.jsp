@@ -2,21 +2,16 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="../include/head.jsp" %>
-<body class="hold-transition login-page">
+<body class="skin-blue hold-transition login-page">
+<%@ include file="../include/main_header.jsp"%>
 <div class="login-box">
-    <div class="login-logo">
-        <a href="${path}/">
-            <b>DoubleS</b><br/>
-            SpringMVC-Examples
-        </a>
-    </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">로그인 페이지</p>
 
         <form action="${path}/user/loginPost" method="post">
             <div class="form-group has-feedback">
-                <input type="text" name="uid" class="form-control" placeholder="아아디">
+                <input type="text" name="uid" class="form-control" placeholder="아이디">
                 <span class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -41,25 +36,16 @@
             </div>
         </form>
 
-        <div class="social-auth-links text-center">
-            <p>- 또는 -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat">
-                <i class="fa fa-facebook"></i> 페이스북으로 로그인
-            </a>
-            <a href="#" class="btn btn-block btn-social btn-google btn-flat">
-                <i class="fa fa-google-plus"></i> 구글 계정으로 로그인
-            </a>
-        </div>
         <!-- /.social-auth-links -->
 
-        <a href="#">비밀번호 찾기</a><br>
+        <a href="#">비밀번호 찾기</a> | 
         <a href="${path}/user/register" class="text-center">회원가입</a>
 
     </div>
     <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
-
+<%@ include file="../include/main_footer.jsp"%>
 <%@ include file="../include/footerjs.jsp" %>
 <script>
     var msg = "${msg}";

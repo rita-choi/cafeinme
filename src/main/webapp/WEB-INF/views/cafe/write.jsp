@@ -211,7 +211,7 @@ display: inline-block;
 }
 
 .form-control{
- width: 50%;
+ width: 70%;
 }
 
 #content {
@@ -235,7 +235,7 @@ height: 300px;
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>동네의 카페를 소개 해 주세요!</h1>
+				<h1>우리 동네의 카페를 소개 해 주세요!</h1>
 			</section>
 
 			<!-- Main content -->
@@ -266,8 +266,8 @@ height: 300px;
 
 								</div>
 								<div class="form-group">
-									<label for="cafename">카페명</label> <input class="form-control"
-										id="cafename" name="cafename" placeholder="카페명을 입력 해 주세요"
+									<label for="cafename">카페 이름</label> <input class="form-control"
+										id="cafename" name="cafename" placeholder="카페 이름을 입력 해 주세요"
 										readonly>
 								</div>
 								<div class="form-group">
@@ -297,7 +297,7 @@ height: 300px;
 							<div class="box-footer">
 								<ul class="mailbox-attachments clearfix uploadedList"></ul>
 							</div>
-							<div class="box-footer">
+							<div class="box-footer" style="margin-bottom: 40px;">
 								<button type="button" class="btn btn-primary listBtn">
 									<i class="fa fa-list"></i>목록
 								</button>
@@ -642,14 +642,11 @@ height: 300px;
 																// 파일정보 가공
 																var fileInfo = getFileInfo(data);
 																// 이미지 파일일 경우
-																if (data
-																		.substr(
-																				12,
-																				2) == "s_") {
+																if (data.substr(12,2) == "s_") {
 																	var html = templatePhotoAttach(fileInfo);
 			
 																	if(!$("#cimage").val()){
-																		$("#cimage").val(fileInfo.fullName); // 첫번째 값을 가져옴
+																		$("#cimage").val((fileInfo.fullName).replace("s_","")); // 첫번째 값을 가져옴
 																	}
 
 																	// 이미지 파일이 아닐 경우

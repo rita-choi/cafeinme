@@ -1,98 +1,249 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@page import="java.util.*"%>
 <%
-    request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
 %>
-  <!-- Main Header -->
- <header class="main-header">
 
-    <%-- Logo --%>
-    <a href="/" class="logo">
-        <%-- mini logo for sidebar mini 50x50 pixels --%>
-        <span class="logo-mini"><i class="fa fa-coffee"></i></span>
-        <%-- logo for regular state and mobile devices --%>
-        <span class="logo-lg"><b>카페와</b> 나</span>
-    </a>
+<style>
+#header {
+    margin: 0 auto;
+    width: 100%;
+    border-bottom: 1px solid #c0c0c0;
+    padding: 0 20%;
+}
 
-    <%-- Header Navbar --%>
-    <nav class="navbar navbar-static-top" role="navigation">
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-            <span class="sr-only">Toggle navigation</span>
-        </a>
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                <c:if test="${not empty login}">
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="${path}/dist/img/profile${login.uimage}" class="user-image" alt="User Image">
-                        <span class="hidden-xs">${login.uname}</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="user-header">
-                            <img src="${path}/dist/img/profile/${login.uimage}" class="img-circle" alt="User Image">
-                            <p>
-                                <small>
-                                    가입일자 : <fmt:formatDate value="${login.regdate}" pattern="yyyy-MM-dd"/>
-                                </small>
-                                <small>
-                                    최근로그인일자 : <fmt:formatDate value="${login.logdate}" pattern="yyyy-MM-dd a HH:mm"/>
-                                </small>
-                            </p>
-                        </li>
-                        <li class="user-body">
-                            <div class="row">
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">게시글</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">추천글</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">북마크</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="${path}/user/profile" class="btn btn-default btn-flat"><i
-                                        class="fa fa-info-circle"></i><b> 내 프로필</b></a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="${path}/user/logout" class="btn btn-default btn-flat"><i
-                                        class="glyphicon glyphicon-log-out"></i><b> 로그아웃</b></a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                </c:if>
-                <c:if test="${empty login}">
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="${path}/dist/img/default-user-image.png" class="user-image" alt="User Image">
-                        <span class="hidden-xs">회원가입 또는 로그인</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="user-header">
-                            <img src="${path}/dist/img/default-user-image.png" class="img-circle" alt="User Image">
-                            <p>
-                                <b>회원가입 또는 로그인해주세요</b>
-                                <small></small>
-                            </p>
-                        </li>
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="${path}/user/register" class="btn btn-default btn-flat"><i
-                                        class="fa fa-user-plus"></i><b> 회원가입</b></a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="${path}/user/login" class="btn btn-default btn-flat"><i
-                                        class="glyphicon glyphicon-log-in"></i><b> 로그인</b></a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                </c:if>
-            </ul>
-        </div>
-    </nav>
+.checkbox, .radio{
+    margin-left: 20px;
+}
+
+#header .gnb {
+	height: 50px;
+}
+
+#header .gnb ul {
+	overflow: hidden;
+	text-align: center;
+}
+
+#header .gnb ul li {
+	display: inline-block;
+}
+
+#header .gnb ul li a {
+	display: block;
+	height: 51px;
+	line-height: 51px;
+	font-size: 1.3em;
+	padding: 0 84px;
+	letter-spacing: -.50px;
+}
+
+a {
+	color: #222;
+	text-decoration: none;
+}
+
+.cup {
+    top: 8.5px;
+    position: relative;
+    margin: 0 auto;
+    width: 40px;
+    height: 35px;
+    border-radius: .05em .05em 3em 3em;
+    box-shadow: 0 0 0 0.2em #242424
+}
+
+.coffee {
+     position: absolute;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #FFF;
+    border-radius: .05em .05em 3em 3em;
+}
+
+.coffee:before {
+    content: '';
+    display: block;
+    width: 200%;
+    height: 1em;
+    position: absolute;
+    left: -50%;
+    top: -.5em;
+    background: #FFF;
+    animation: coffee-wave .8s ease-in-out infinite;
+    border-radius: 50%;
+}
+
+.cup:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 85%;
+    top: 0.3em;
+    width: 10px;
+    height: 15px;
+    box-shadow: 0 0 0 0.3em #242424;
+    margin-left: .5em;
+    border-radius: 0 50% 50% 0;
+    }
+.ingredient {
+    position: absolute;
+    left: 0;
+    top: 5%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #252C32 5%, #F4E8DA 5%, #F4E8DA 30%, #DAB7A3 30%, #DAB7A3 70%, #87624F 70%);
+    animation: coffee-load 5s infinite;
+}
+
+
+@keyframes coffee-load {
+	0% {
+		transform: translateY(100%);
+	}
+	70% {
+		transform: translateY(30%);
+	}
+	90% {
+		transform: translateY(0);
+	}
+	95% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(100%);
+	}
+}
+
+@keyframes coffee-wave {
+	0% {
+		transform: rotate(2deg);
+	}
+	50% {
+		transform: rotate(-2deg);
+  }
+	100% {
+		transform: rotate(2deg);
+	}
+}
+
+#header .info {
+    padding: 8px 0;
+    display: inline-block;
+    height: 50px;
+    width: 230px;
+}
+
+#header .info h1 {
+font-size: 20px;
+    font-weight: 800;
+    color: #252C32;
+    margin: 0 auto;
+}
+
+#header .info p {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 10px;
+    font-weight: 600;
+}
+</style>
+
+<!-- Main Header -->
+<header id="header" class="main-header">
+
+
+	<%-- Header Navbar --%>
+	<nav class="navbar navbar-static-top" role="navigation">
+		<%-- Logo --%>
+		<a href="/" class="logo"> 
+		<span class="logo-lg cup">
+		<span class="coffee"><span class="ingredient"></span></span>
+		</span>
+		</a>
+		<div class="info">
+			<h1>카페와 나</h1>
+			<p>우리 동네 카페 소개소</p>
+		</div>
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+			<li class="false"><a href="/cafe/write"><span
+					data-reactid="42">우리 동네 카페 등록</span></a></li>
+			<li class="false"><a href="/cafe/list"><span>카페 탐방</span></a></li>
+				<c:if test="${not empty login}">
+					<li class="dropdown user user-menu"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"> <img
+							src="${path}/dist/img/profile${login.uimage}" class="user-image"
+							alt="User Image"> <span class="hidden-xs">${login.uname}</span>
+					</a>
+						<ul class="dropdown-menu">
+							<li class="user-header"><img
+								src="${path}/dist/img/profile/${login.uimage}"
+								class="img-circle" alt="User Image">
+								<p>
+									<small> 가입일자 : <fmt:formatDate value="${login.regdate}"
+											pattern="yyyy-MM-dd" />
+									</small> <small> 최근로그인일자 : <fmt:formatDate
+											value="${login.logdate}" pattern="yyyy-MM-dd a HH:mm" />
+									</small>
+								</p></li>
+							<li class="user-body">
+								<div class="row">
+									<div class="col-xs-4 text-center">
+										<a href="#">게시글</a>
+									</div>
+									<div class="col-xs-4 text-center">
+										<a href="#">추천글</a>
+									</div>
+									<div class="col-xs-4 text-center">
+										<a href="#">북마크</a>
+									</div>
+								</div>
+							</li>
+							<li class="user-footer">
+								<div class="pull-left">
+									<a href="${path}/user/profile" class="btn btn-default btn-flat"><i
+										class="fa fa-info-circle"></i><b> 내 프로필</b></a>
+								</div>
+								<div class="pull-right">
+									<a href="${path}/user/logout" class="btn btn-default btn-flat"><i
+										class="glyphicon glyphicon-log-out"></i><b> 로그아웃</b></a>
+								</div>
+							</li>
+						</ul></li>
+				</c:if>
+				<c:if test="${empty login}">
+					<li class="dropdown user user-menu"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"> <img
+							src="${path}/dist/img/default-user-image.png" class="user-image"
+							alt="User Image"> <span class="hidden-xs">회원가입 또는
+								로그인</span>
+					</a>
+						<ul class="dropdown-menu">
+							<li class="user-header"><img
+								src="${path}/dist/img/default-user-image.png" class="img-circle"
+								alt="User Image">
+								<p>
+									<b>회원가입 또는 로그인해주세요</b> <small></small>
+								</p></li>
+							<li class="user-footer">
+								<div class="pull-left">
+									<a href="${path}/user/register"
+										class="btn btn-default btn-flat"><i
+										class="fa fa-user-plus"></i><b> 회원가입</b></a>
+								</div>
+								<div class="pull-right">
+									<a href="${path}/user/login" class="btn btn-default btn-flat"><i
+										class="glyphicon glyphicon-log-in"></i><b> 로그인</b></a>
+								</div>
+							</li>
+						</ul></li>
+				</c:if>
+			</ul>
+		</div>
+	</nav>
 </header>

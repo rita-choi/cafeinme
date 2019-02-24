@@ -63,7 +63,6 @@ desired effect
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 		<%@ include file="../include/main_header.jsp"%>
-		<%@ include file="../include/left_column.jsp"%>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">

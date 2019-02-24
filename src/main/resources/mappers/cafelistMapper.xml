@@ -80,7 +80,7 @@
 	</select>
 
 	<select id="listSearch" resultMap="CafeListResultMap">
-			<![CDATA[SELECT cno, cafename, content, location, writer, updatedate, viewcnt, mymenu, reviewcnt, attachcnt, scorecnt, cimage FROM cafe_list WHERE cno> 0]]><include
+			<![CDATA[ SELECT c.cno, c.cafename, c.content, c.location, c.writer, c.updatedate, c.viewcnt, c.mymenu, c.reviewcnt, c.attachcnt, c.scorecnt, c.cimage, u.uimage FROM cafe_list c inner JOIN cafe_user u WHERE c.cno> 0]]><include
 		refid="search" /><![CDATA[ ORDER BY cno DESC, updatedate DESC LIMIT #{pageStart}, #{perPageNum}]]>
 	</select>
 

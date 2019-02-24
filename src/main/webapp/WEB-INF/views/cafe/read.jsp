@@ -141,7 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 							//리뷰 없을 시
 							if (totalCount === 0) {
-								$(".reviewCount").html("리뷰이 없습니다.");
+								$(".reviewCount").html("리뷰가 없습니다.");
 								$(".collapsed-box").find(".btn-box-tool")
 										.remove();
 								return;
@@ -524,48 +524,136 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	
 </script>
 <style>
+.read #header {
+	padding: 0 19%;
+	background-color: #fff;
+}
+
+.read .wrapper {
+	background-color: #fafafa;
+}
 
 .star-rating {
-  font-family: 'FontAwesome';
-  margin: 50px auto;
+	font-family: 'FontAwesome';
+	margin: 50px auto;
 }
-.star-rating > fieldset {
-  border: none;
-  display: inline-block;
+
+.star-rating>fieldset {
+	border: none;
+	display: inline-block;
 }
-.star-rating > fieldset:not(:checked) > input {
-  position: absolute;
-  /*top: -9999px;*/
-  clip: rect(0, 0, 0, 0);
+
+.star-rating>fieldset:not (:checked ) >input {
+	position: absolute;
+	/*top: -9999px;*/
+	clip: rect(0, 0, 0, 0);
 }
-.star-rating > fieldset:not(:checked) > label {
-  float: right;
-  width: 1em;
-  padding: 0 0.05em;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 200%;
-  color: #f0b111;
+
+.star-rating>fieldset:not (:checked ) >label {
+	float: right;
+	width: 1em;
+	padding: 0 0.05em;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 200%;
+	color: #f0b111;
 }
-.star-rating > fieldset:not(:checked) > label:before {
-  content: '\f006  ';
+
+.star-rating>fieldset:not (:checked ) >label:before {
+	content: '\f006  ';
 }
-.star-rating > fieldset:not(:checked) > label:hover,
-.star-rating > fieldset:not(:checked) > label:hover ~ label {
-  color: #f0b111;
-  text-shadow: 0 0 3px #f0b111;
+
+.star-rating>fieldset:not (:checked ) >label:hover, .star-rating>fieldset:not
+	 (:checked ) >label:hover ~ label {
+	color: #f0b111;
+	text-shadow: 0 0 3px #f0b111;
 }
-.star-rating > fieldset:not(:checked) > label:hover:before,
-.star-rating > fieldset:not(:checked) > label:hover ~ label:before {
-  content: '\f005  ';
+
+.star-rating>fieldset:not (:checked ) >label:hover:before, .star-rating>fieldset:not
+	 (:checked ) >label:hover ~ label:before {
+	content: '\f005  ';
 }
-.star-rating > fieldset > input:checked ~ label:before {
-  content: '\f005  ';
+
+.star-rating>fieldset>input:checked ~ label:before {
+	content: '\f005  ';
 }
-.star-rating > fieldset > label:active {
-  position: relative;
-  top: 2px;
+
+.star-rating>fieldset>label:active {
+	position: relative;
+	top: 2px;
+}
+
+.read .post {
+	margin-top: 5%;
+}
+
+.read .post-content header {
+	border-bottom: 1px solid #efefef;
+	height: 78px;
+	margin-right: 0;
+	padding: 20px 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 287px;
+}
+
+.read .content {
+	margin: 0;
+	padding: 0;
+}
+
+.read .post-content {
+	display: inline-block;
+	position: absolute;
+	margin: 10px;
+}
+
+.post-content .profile_pic {
+	display: inline-block;
+}
+
+.post-content .profile_pic img {
+	width: 100%;
+	height: 100%;
+}
+
+.read .post-pic {
+	display: inline-block;
+}
+
+.read .username {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.read .loca {
+	display: block;
+	font-size: .8em;
+}
+
+.read .post-wrapper {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	display: block;
+	position: relative;
+}
+
+.profile_pic .post-anchor {
+background-color: #fafafa;
+    border-radius: 50%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    overflow: hidden;
+    position: relative;
 }
 </style>
 <!--
@@ -588,23 +676,12 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini read">
 	<div class="wrapper">
 		<%@ include file="../include/main_header.jsp"%>
-		<%@ include file="../include/left_column.jsp"%>
 
 		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<section class="content-header">
-				<h1>
-					Page Header <small>Optional description</small>
-				</h1>
-				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-					<li class="active">Here</li>
-				</ol>
-			</section>
+		<div class="content-wrapper post">
 
 			<!-- Main content -->
 			<section class="content container-fluid">
@@ -612,7 +689,34 @@ desired effect
 				<!--------------------------
         | Your Page Content Here |
         -------------------------->
+				<div class="post-wrapper">
+					<div class="post-pic">
 
+						<img src="${path}/dist/img/upload_files${cafelist.cimage}">
+
+					</div>
+					<article class="post-content">
+						<header>
+
+							<div class="profile_pic" role="button">
+								<a class="post-anchor" href="#" style="width: 40px; height: 40px;"> <img
+									class="img-circle img-bordered-sm profile"
+									src="${pagContext.request.contextPath}/dist/img/user1-128x128.jpg"
+									alt="user image" />
+								</a>
+								<div class="username">
+									<a title="작성자" href="#">${cafelist.writer}</a>
+									<div class="loca">
+										<span>${cafelist.location}</span>
+									</div>
+								</div>
+
+							</div>
+
+
+						</header>
+					</article>
+				</div>
 				<div class="col-lg-12">
 					<div class="box box-primary">
 						<div class="box-header with-border">
@@ -629,18 +733,20 @@ desired effect
 							</ul>
 						</div>
 						<div class="box-header with-border">
-							<h3 class="box-title">평점 : <span id="scorecnt"></span></h3>
+							<h3 class="box-title">
+								평점 : <span id="scorecnt"></span>
+							</h3>
 						</div>
 						<div class="box-body" style="height: 700px;">
 							${cafelist.content}</div>
 						<div class="box-footer">
-						위치 : ${cafelist.location}
-						<div id="map" style="width:100%;height:350px;"></div>
+							위치 : ${cafelist.location}
+							<div id="map" style="width: 100%; height: 350px;"></div>
 						</div>
-					<%--업로드 파일 정보 영역--%>
-                    <div class="box-footer uploadFiles">
-                        <ul class="mailbox-attachments clearfix uploadedList"></ul>
-                    </div>
+						<%--업로드 파일 정보 영역--%>
+						<div class="box-footer uploadFiles">
+							<ul class="mailbox-attachments clearfix uploadedList"></ul>
+						</div>
 						<div class="box-footer">
 							<div class="user-block">
 								<img class="img-circle img-bordered-sm"
@@ -663,54 +769,72 @@ desired effect
 							<button type="submit" class="btn btn-primary listBtn">
 								<i class="fa fa-list"></i>목록
 							</button>
- 						<c:if test="${login.uid == cafelist.writer}">
-                            <div class="pull-right">
-                                <button type="submit" class="btn btn-warning modBtn"><i class="fa fa-edit"></i> 수정</button>
-                                <button type="submit" class="btn btn-danger delBtn"><i class="fa fa-trash"></i> 삭제</button>
-                            </div>
-                        </c:if>
+							<c:if test="${login.uid == cafelist.writer}">
+								<div class="pull-right">
+									<button type="submit" class="btn btn-warning modBtn">
+										<i class="fa fa-edit"></i> 수정
+									</button>
+									<button type="submit" class="btn btn-danger delBtn">
+										<i class="fa fa-trash"></i> 삭제
+									</button>
+								</div>
+							</c:if>
 						</div>
 					</div>
-  <%--리뷰 입력 영역--%>
-                <c:if test="${not empty login}">
-                    <div class="box box-warning">
-                        <div class="box-header with-border">
-                            <a class="link-black text-lg"><i class="fa fa-pencil"></i> 리뷰작성</a>
-                        </div>
-                        <div class="box-body">
-                            <form class="form-horizontal">
-                                <div class="form-group margin-bottom-none">
-                                    <div class="col-sm-10">
-                                        <textarea class="form-control" id="newReviewText" rows="3" placeholder="리뷰을 입력해주세요..." style="resize: none"></textarea>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <input class="form-control" id="newReviewer" type="text" value="${login.uid}" readonly="readonly">
-                                    </div>
-                                    <hr/>
-                                    <div class="star-rating">
-  <fieldset>
-    <input type="radio" id="star5" name="score" value="5" checked /><label for="star5" title="Outstanding">5 stars</label>
-    <input type="radio" id="star4" name="score" value="4" /><label for="star4" title="Very Good">4 stars</label>
-    <input type="radio" id="star3" name="score" value="3" /><label for="star3" title="Good">3 stars</label>
-    <input type="radio" id="star2" name="score" value="2" /><label for="star2" title="Poor">2 stars</label>
-    <input type="radio" id="star1" name="score" value="1" /><label for="star1" title="Very Poor">1 star</label>
-  </fieldset>
-</div>
-                                    <div class="col-sm-2">
-                                        <button type="button" class="btn btn-primary btn-block reviewAddBtn"><i class="fa fa-save"></i> 저장</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </c:if>
-                <c:if test="${empty login}">
-                    <div class="box box-warning">
-                        <div class="box-header with-border">
-                            <p><i class="fa fa-pencil"></i> 리뷰 작성을 위해 <a href="${path}/user/login" class="link-black text-lg">로그인</a>해주세요</p>
-                        </div>
-                    </div>
-                </c:if>
+					<%--리뷰 입력 영역--%>
+					<c:if test="${not empty login}">
+						<div class="box box-warning">
+							<div class="box-header with-border">
+								<a class="link-black text-lg"><i class="fa fa-pencil"></i>
+									리뷰작성</a>
+							</div>
+							<div class="box-body">
+								<form class="form-horizontal">
+									<div class="form-group margin-bottom-none">
+										<div class="col-sm-10">
+											<textarea class="form-control" id="newReviewText" rows="3"
+												placeholder="리뷰을 입력해주세요..." style="resize: none"></textarea>
+										</div>
+										<div class="col-sm-2">
+											<input class="form-control" id="newReviewer" type="text"
+												value="${login.uid}" readonly="readonly">
+										</div>
+										<hr />
+										<div class="star-rating">
+											<fieldset>
+												<input type="radio" id="star5" name="score" value="5"
+													checked /><label for="star5" title="Outstanding">5
+													stars</label> <input type="radio" id="star4" name="score" value="4" /><label
+													for="star4" title="Very Good">4 stars</label> <input
+													type="radio" id="star3" name="score" value="3" /><label
+													for="star3" title="Good">3 stars</label> <input
+													type="radio" id="star2" name="score" value="2" /><label
+													for="star2" title="Poor">2 stars</label> <input
+													type="radio" id="star1" name="score" value="1" /><label
+													for="star1" title="Very Poor">1 star</label>
+											</fieldset>
+										</div>
+										<div class="col-sm-2">
+											<button type="button"
+												class="btn btn-primary btn-block reviewAddBtn">
+												<i class="fa fa-save"></i> 저장
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</c:if>
+					<c:if test="${empty login}">
+						<div class="box box-warning">
+							<div class="box-header with-border">
+								<p>
+									<i class="fa fa-pencil"></i> 리뷰 작성을 위해 <a
+										href="${path}/user/login" class="link-black text-lg">로그인</a>해주세요
+								</p>
+							</div>
+						</div>
+					</c:if>
 					<div class="box box-success collapsed-box">
 						<!-- 리뷰 유무, 리뷰 갯수, 리뷰 펼치기 & 접기 -->
 						<div class="box-cheader with-border">
@@ -740,15 +864,20 @@ desired effect
 										<input type="hidden" class="reviewNo" id="modreviewNo" />
 										<textarea class="form-control" id="reviewText" rows="3"
 											style="resize: none"></textarea>
-									  <div class="star-rating Modstar">
-  <fieldset>
-    <input type="radio" id="star5" name="score" value="5" checked/><label for="star5" title="Outstanding">5 stars</label>
-    <input type="radio" id="star4" name="score" value="4" /><label for="star4" title="Very Good">4 stars</label>
-    <input type="radio" id="star3" name="score" value="3" /><label for="star3" title="Good">3 stars</label>
-    <input type="radio" id="star2" name="score" value="2" /><label for="star2" title="Poor">2 stars</label>
-    <input type="radio" id="star1" name="score" value="1" /><label for="star1" title="Very Poor">1 star</label>
-  </fieldset>
-</div>
+										<div class="star-rating Modstar">
+											<fieldset>
+												<input type="radio" id="star5" name="score" value="5"
+													checked /><label for="star5" title="Outstanding">5
+													stars</label> <input type="radio" id="star4" name="score" value="4" /><label
+													for="star4" title="Very Good">4 stars</label> <input
+													type="radio" id="star3" name="score" value="3" /><label
+													for="star3" title="Good">3 stars</label> <input
+													type="radio" id="star2" name="score" value="2" /><label
+													for="star2" title="Poor">2 stars</label> <input
+													type="radio" id="star1" name="score" value="1" /><label
+													for="star1" title="Very Poor">1 star</label>
+											</fieldset>
+										</div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default pull-left"
@@ -802,10 +931,11 @@ desired effect
 
 		<%@ include file="../include/main_footer.jsp"%>
 	</div>
-	
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9619937fadbc25cf54f5d5e469cc0c2a&libraries=services"></script>
-<%-- 다음 지도 --%>
-<script>
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9619937fadbc25cf54f5d5e469cc0c2a&libraries=services"></script>
+	<%-- 다음 지도 --%>
+	<script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
         center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -843,14 +973,15 @@ geocoder.addressSearch('${cafelist.location}', function(result, status) {
     } 
 });    
 </script>
-<%--Handlebars JS--%>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-<%--업로드 JS--%>
-<script type="text/javascript" src="/resources/dist/js/upload.js"></script>
+	<%--Handlebars JS--%>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+	<%--업로드 JS--%>
+	<script type="text/javascript" src="/resources/dist/js/upload.js"></script>
 
-<%--첨부파일 하나의 영역--%>
-<%--이미지--%>
-<script id="templatePhotoAttach" type="text/x-handlebars-template">
+	<%--첨부파일 하나의 영역--%>
+	<%--이미지--%>
+	<script id="templatePhotoAttach" type="text/x-handlebars-template">
     <li>
         <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
         <div class="mailbox-attachment-info">
@@ -858,8 +989,8 @@ geocoder.addressSearch('${cafelist.location}', function(result, status) {
         </div>
     </li>
 </script>
-<%--일반 파일--%>
-<script id="templateFileAttach" type="text/x-handlebars-template">
+	<%--일반 파일--%>
+	<script id="templateFileAttach" type="text/x-handlebars-template">
     <li>
         <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
         <div class="mailbox-attachment-info">

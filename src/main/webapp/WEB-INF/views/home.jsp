@@ -34,27 +34,14 @@ desired effect
 -->
 <style>
 .swiper-container {
-	max-width: 97.5rem;
-	margin: 0 auto;
-	padding: 0 2rem;
 	width: 100%;
 	height: 100%;
 }
 
-.swiper-wrapper {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-	grid-gap: 2rem;
-	flex-wrap: wrap;
-	padding-bottom: 3rem;
-}
-
 .swiper-slide {
-	position: relative;
-	flex: 1 0 22rem;
-	cursor: pointer;
-	height: auto;
 	text-align: center;
+	font-size: 18px;
+	background: #fff;
 	/* Center slide text vertically */
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -68,6 +55,8 @@ desired effect
 	-ms-flex-align: center;
 	-webkit-align-items: center;
 	align-items: center;
+	overflow: hidden;
+	height: auto;
 }
 
 .gallery-image {
@@ -103,30 +92,27 @@ desired effect
 ol, ul {
 	padding-inline-start: 0px;
 }
-
-
 </style>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 		<%@ include file="include/main_header.jsp"%>
-<!--  -->	
+		<!--  -->
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 
-
 			<!-- Main content -->
 			<section class="content container-fluid">
-						<!-- Content Header (Page header) -->
-			<section class="content-header">
-				<h1>실시간 생생 후기</h1>
-			</section>
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>실시간 생생 후기</h1>
+				</section>
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						<c:forEach items="${cafelists}" var="cafelist">
 							<div class="swiper-slide gallery-item">
 								<img class="gallery-image"
-									src="${path}/dist/img/cafe/${cafelist.cimage}" />
+									src="${path}/dist/img/upload_files${cafelist.cimage}" />
 								<div class="gallery-item-info">
 									<ul>
 										<li>${cafelist.cafename}</li>
@@ -154,7 +140,7 @@ ol, ul {
 		</div>
 		<!-- /.content-wrapper -->
 
-		<%@ include file="include/main_footer.jsp"%>
+
 	</div>
 	<!-- ./wrapper -->
 
@@ -166,7 +152,7 @@ ol, ul {
 	<script>
 		var swiper = new Swiper('.swiper-container', {
 			slidesPerView : 3,
-			spaceBetween : 30,
+			spaceBetween : 20,
 			pagination : {
 				el : '.swiper-pagination',
 				clickable : true,
@@ -176,5 +162,6 @@ ol, ul {
 	<!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+	<%@ include file="include/main_footer.jsp"%>
 </body>
 </html>

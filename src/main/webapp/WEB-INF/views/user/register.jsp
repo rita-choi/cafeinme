@@ -1,22 +1,16 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <%@ include file="../include/head.jsp" %>
-<body class="hold-transition register-page">
+<body class="skin-blue hold-transition register-page">
+<%@ include file="../include/main_header.jsp"%>
 <div class="register-box">
-    <div class="register-logo">
-        <a href="${path}/">
-            <b>DoubleS</b><br/>
-            SpringMVC-Examples
-        </a>
-    </div>
-
     <div class="register-box-body">
         <p class="login-box-msg">회원가입 페이지</p>
 
         <form action="${path}/user/register" method="post">
             <div class="form-group has-feedback">
-                <input type="text" name="uid" class="form-control" placeholder="아아디">
+                <input type="text" name="uid" class="form-control" placeholder="아이디">
                 <span class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -49,22 +43,12 @@
             </div>
         </form>
 
-        <div class="social-auth-links text-center">
-            <p>- 또는 -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat">
-                <i class="fa fa-facebook"></i> 페이스북으로 로그인
-            </a>
-            <a href="#" class="btn btn-block btn-social btn-google btn-flat">
-                <i class="fa fa-google-plus"></i> 구글 계정으로 로그인
-            </a>
-        </div>
-
         <a href="${path}/user/login" class="text-center">로그인</a>
     </div>
     <!-- /.form-box -->
 </div>
 <!-- /.register-box -->
-
+<%@ include file="../include/main_footer.jsp"%>
 <%@ include file="../include/footerjs.jsp" %>
 <script>
     $(function () {

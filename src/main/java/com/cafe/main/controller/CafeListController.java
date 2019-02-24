@@ -43,8 +43,8 @@ public class CafeListController {
 	@Inject
 	private CafeListService cafelistService;
 	
-    @Resource(name = "cimagePath")
-    private String cimagePath;
+    @Resource(name = "uploadPath")
+    private String uploadPath;
 	
     // 카페 등록 페이지 redirect
     @RequestMapping(value = "/write", method = RequestMethod.GET)
@@ -172,7 +172,7 @@ public class CafeListController {
         logger.info("CONTENT TYPE : " + file.getContentType());
         logger.info("===============================================================================================");
        
-        String uploadFile = UploadFileUtils.uploadFile(cimagePath, file.getOriginalFilename(), file.getBytes());
+        String uploadFile = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
         
         logger.info("=======================uploadFile=======================" + uploadFile + "======================");
         String front = uploadFile.substring(0, 12);

@@ -16,12 +16,12 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="${pagContext.request.contextPath}/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/AdminLTE.min.css?ver=4">
-    <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/swiper.min.css">
+  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/AdminLTE.min.css?ver=9">
+    <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/swiper.min.css?ver=2">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/skins/skin-blue.min.css?ver=4">
+  <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/skins/skin-blue.min.css?ver=6">
   <link rel="stylesheet" href="${pagContext.request.contextPath}/dist/css/font-awesome.min.css">
 
  <%--fileupload--%>
@@ -46,4 +46,5 @@
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Serif+KR" rel="stylesheet">
 </head>

@@ -148,6 +148,7 @@ public class CafeListVO {
 	public void setCimage(String cimage) {
 		this.cimage = cimage;
 	}
+
     
     
 
