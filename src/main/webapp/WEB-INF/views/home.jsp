@@ -92,15 +92,98 @@ desired effect
 ol, ul {
 	padding-inline-start: 0px;
 }
+
+.header {
+    padding: 150px 0;
+}
+
+.header {
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    background-position: center;
+    background-size: cover;
+}
+
+
+.header:before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+#header .info h1{
+	color: #fff !important;
+}
+
+.navbar {
+	position: absolute;
+	top: 0;
+	margin-top: 5px;
+	width: 100%;
+}
+
+.skin-blue .main-header .navbar {
+	background-color: transparent;
+}
+
+.nav>li>a:focus, .nav>li>a:hover{
+ background-color: transparent;
+}
+
+.skin-blue .main-header .navbar .nav>li>a {
+	color: #fff !important;
+}
+
+#header .info {
+	color: #fff;
+}
+
+@media screen and (max-width: 700px) {
+	.gallery-item-info {
+		padding: 0 15%;
+	}
+	.gallery-item-info li {
+		font-size: 1.3rem;
+	}
+	
+	.content-wrapper{
+	min-height: 500px !important;
+	}
+	
+	.content:last-child{
+	padding-bottom: 0;
+	}
+}
+
 </style>
 <body class="hold-transition skin-blue sidebar-mini">
-	<div class="wrapper">
-		<%@ include file="include/main_header.jsp"%>
+
+<div id="loading">
+	<div class="loader">
+		<span class="cup">
+		<span class="coffee"><span class="ingredient"></span></span>
+		</span></div>
+</div>
+	<div id="main" class="wrapper">
+			<%@ include file="include/main_header.jsp"%>
+	  <div class="header" style="background-image: url(https://source.unsplash.com/1600x900/?coffee);">
+	  	<p class="title">세상 사람들이 알았으면 하는 우리 동네 카페</p>
+	<h1 class="title">카페와 나</h1>
+	  </div>
+
 		<!--  -->
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
-
 			<!-- Main content -->
 			<section class="content container-fluid">
 				<!-- Content Header (Page header) -->
@@ -131,16 +214,42 @@ ol, ul {
 					</div>
 					<div class="swiper-pagination"></div>
 				</div>
-				<!--------------------------
-        | Your Page Content Here |
-        -------------------------->
+			</section>
+						<section class="content container-fluid">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>평점 순</h1>
+				</section>
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<c:forEach items="${ratelists}" var="ratelist">
+							<div class="swiper-slide gallery-item">
+								<img class="gallery-image"
+									src="${path}/dist/img/upload_files${ratelist.cimage}" />
+								<div class="gallery-item-info">
+									<ul>
+										<li>${ratelist.cafename}</li>
+										<c:if test="${ratelist.reviewcnt eq 0}">
+											<li><i class="fa fa-star"></i>0.0</li>
+										</c:if>
+										<c:if test="${ratelist.reviewcnt ne 0}">
+											<li><i class="fa fa-star"></i>${ratelist.scorecnt/ratelist.reviewcnt}</li>
+										</c:if>
+
+									</ul>
+								</div>
+								<%-- ${cafelist.cafename} --%>
+							</div>
+						</c:forEach>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
 
 			</section>
-			<!-- /.content -->
 		</div>
 		<!-- /.content-wrapper -->
 
-
+	<%@ include file="include/main_footer.jsp"%>
 	</div>
 	<!-- ./wrapper -->
 
@@ -162,6 +271,6 @@ ol, ul {
 	<!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
-	<%@ include file="include/main_footer.jsp"%>
+
 </body>
 </html>

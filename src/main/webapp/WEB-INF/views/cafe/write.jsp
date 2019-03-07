@@ -329,9 +329,11 @@ height: 300px;
 
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9619937fadbc25cf54f5d5e469cc0c2a&libraries=services"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5b6608fb0602098d02c33c6beeb232ab&libraries=services"></script>
 
 	<script>
+	
+	
 		// 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 		var placeOverlay = new daum.maps.CustomOverlay({
 			zIndex : 1

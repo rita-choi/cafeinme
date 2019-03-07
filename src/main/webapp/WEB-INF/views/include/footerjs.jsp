@@ -11,3 +11,8 @@
 <!-- DataTables -->
 <script src="${pagContext.request.contextPath}/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="${pagContext.request.contextPath}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+$(window).on('load', function(){   
+    $('#loading').fadeOut();  
+   });
+</script>

@@ -23,6 +23,8 @@ public class CafeListVO {
     private int attachcnt;
     // 카페 대표 이미지
     private String cimage;
+    private double highscore;
+
 
 	public int getCno() {
 		return cno;
@@ -104,8 +106,6 @@ public class CafeListVO {
 		this.reviewcnt = reviewcnt;
 	}
 
-
-
 	public Integer getScorecnt() {
 		return scorecnt;
 	}
@@ -149,7 +149,12 @@ public class CafeListVO {
 		this.cimage = cimage;
 	}
 
-    
-    
+	public double getHighscore() {
+		return highscore;
+	}
 
+	public void setHighscore(double highscore) {
+		this.highscore = highscore;
+	}
+	
 }

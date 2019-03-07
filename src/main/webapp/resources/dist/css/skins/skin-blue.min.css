@@ -41,8 +41,9 @@
 .skin-blue .main-header .logo {
 	background-color: transparent;
 	color: #000;
-	border-bottom: 1px solid #c0c0c0;
 }
+
+
 
 .skin-blue .main-header li.user-header {
 	background-color: #c0c0c0;

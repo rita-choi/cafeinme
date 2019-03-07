@@ -37,11 +37,9 @@
 	<insert id="create"
 		parameterType="com.cafe.main.domain.CafeListVO">
 		INSERT INTO cafe_list (cno, cafename, content,
-		location,
-		writer, viewcnt, mymenu , attachcnt, cimage) VALUES (#{cno},
+		location, writer, viewcnt, mymenu, attachcnt, cimage) VALUES (#{cno},
 		#{cafename},#{content}, #{location}, #{writer}, #{viewcnt},
-		#{mymenu},
-		#{attachcnt}, #{cimage})
+		#{mymenu}, #{attachcnt}, #{cimage})
 	</insert>
 
 	<select id="read" resultType="com.cafe.main.domain.CafeListVO">
@@ -73,8 +71,6 @@
 		DELETE FROM cafe_list WHERE cno = #{cno}
 	</delete>
 
-
-
 	<select id="countLists" resultType="int">
 			<![CDATA[SELECT COUNT(cno) FROM cafe_list WHERE cno > 0]]>
 	</select>
@@ -82,6 +78,10 @@
 	<select id="listSearch" resultMap="CafeListResultMap">
 			<![CDATA[ SELECT c.cno, c.cafename, c.content, c.location, c.writer, c.updatedate, c.viewcnt, c.mymenu, c.reviewcnt, c.attachcnt, c.scorecnt, c.cimage, u.uimage FROM cafe_list c inner JOIN cafe_user u WHERE c.cno> 0]]><include
 		refid="search" /><![CDATA[ ORDER BY cno DESC, updatedate DESC LIMIT #{pageStart}, #{perPageNum}]]>
+	</select>
+	
+		<select id="listRate" resultMap="CafeListResultMap">
+			<![CDATA[ select cno, cafename, reviewcnt, scorecnt, cimage, IFNULL(scorecnt / reviewcnt, 0) AS highscore from cafe_list order by highscore desc; ]]>
 	</select>
 
 	<select id="countSearchedLists" resultType="int">

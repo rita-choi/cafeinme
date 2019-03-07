@@ -53,5 +53,7 @@ public interface CafeListDAO {
     //카페 대표 이미지 수정
 	public void updateCimage(int cno, String cimage) throws Exception;
     
+    // 평점 순 게시물
+    public List<CafeListVO> listRate() throws Exception;
 	
 }

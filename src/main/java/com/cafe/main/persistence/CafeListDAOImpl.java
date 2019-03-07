@@ -126,4 +126,10 @@ public class CafeListDAOImpl implements CafeListDAO{
 		
 	}
 
+
+	@Override
+	public List<CafeListVO> listRate() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".listRate");
+	}
+
 }

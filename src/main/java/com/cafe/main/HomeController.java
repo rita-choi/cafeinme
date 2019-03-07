@@ -35,13 +35,9 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String list(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria, Model model) throws Exception{
 		logger.info("카페와 나 메인 페이지");
-		
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setCriteria(searchCriteria);
-			pageMaker.setTotalCount(cafelistService.countSearchedLists(searchCriteria));
 
 			model.addAttribute("cafelists", cafelistService.cafeListSearch(searchCriteria));
-			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("ratelists", cafelistService.listRate());
 
 			return "home";
 	    }

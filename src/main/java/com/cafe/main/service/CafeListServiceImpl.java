@@ -170,5 +170,11 @@ public class CafeListServiceImpl implements CafeListService {
 		cafelistDAO.updateCimage(cno, cimage);
 	}
 
+	@Override
+	public List<CafeListVO> listRate() throws Exception {
+		// TODO Auto-generated method stub
+		return cafelistDAO.listRate();
+	}
+
 	
 }

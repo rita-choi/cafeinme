@@ -18,7 +18,8 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
-		<!-- DB의 타임존이 설정되어 있지 않으면 기본값을 가져오고 서버와 싱크되지 않음 ; serverTimezone=Asia/Seoul를 추가 -->
+		<!-- DB의 타임존이 설정되어 있지 않으면 기본값을 가져오고 서버와 싱크되지 않음 ; serverTimezone=Asia/Seoul를 
+			추가 -->
 		<property name="url"
 			value="jdbc:log4jdbc:mysql://127.0.0.1:3306/cafedb?useSSL=false&amp;serverTimezone=Asia/Seoul" />
 		<property name="username" value="root" />
@@ -58,17 +59,19 @@
 	<!--게시글 첨부 파일 저장 경로 설정 -->
 	<bean id="uploadPath" class="java.lang.String">
 		<constructor-arg
-			value="C:\\Users\\ritam\\git\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\upload_files">
+			value="C:\\java\\cafeinme-2019\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\upload_files">
+			<!-- value="C:\\Users\\ritam\\git\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\upload_files"> -->
 		</constructor-arg>
 	</bean>
 
 	<!--프로필 이미지 파일 저장 경로 설정 -->
 	<bean id="uimagePath" class="java.lang.String">
 		<constructor-arg
-			value="C:\\Users\\ritam\\git\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\profile">
+		value="C:\\java\\cafeinme-2019\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\profile"> 
+			<!--  value="C:\\Users\\ritam\\git\\cafeinme\\src\\main\\webapp\\resources\\dist\\img\\profile"> -->
 		</constructor-arg>
 	</bean>
 
-	
+
 
 </beans>

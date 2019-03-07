@@ -25,3 +25,6 @@ ALTER TABLE cafe_list ADD COLUMN attachcnt int DEFAULT 0;
 -- 대표이미지 파일명 추가
 ALTER TABLE cafe_list ADD COLUMN cimage VARCHAR(100) NOT NULL DEFAULT '/default-cafe-image.jpg';
 
+-- 리뷰 평점 순 대로
+ select *, scorecnt / reviewcnt AS highscore from cafe_list order by highscore desc;
+

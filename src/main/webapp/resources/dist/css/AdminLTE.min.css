@@ -100,6 +100,7 @@ body {
 	border-top: 1px solid #d2d6de;
 	position: absolute;
 	bottom: 0;
+	z-index: 99999;
 }
 
 .fixed .main-header, .fixed .main-sidebar, .fixed .left-side {
@@ -141,12 +142,29 @@ body {
 }
 
 .content {
-	min-height: 250px;
-	padding: 15px;
-	margin-right: auto;
-	margin-left: auto;
-	padding-top: 20px;
+    min-height: 250px;
+    padding: 15px 40px;
+margin: 0 auto;
+    background: #fff;
+    overflow: hidden;
+    z-index: 2000;
+    position: relative;
 }
+
+@media screen and (max-width:700px){
+	.content {
+    min-height: 140px;
+	}
+}
+
+.content:first-child {
+	    margin-top: -15vh;
+}
+
+.content:last-child {
+	  padding-bottom: 20vh;
+}
+
 
 a {
 	color: #3c8dbc
@@ -309,7 +327,7 @@ a:hover, a:active, a:focus {
 
 .content-header {
 	position: relative;
-	padding: 15px 15px 0 15px
+	padding: 0
 }
 
 .content-header>h1 {

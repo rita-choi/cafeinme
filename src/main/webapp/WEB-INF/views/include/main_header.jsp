@@ -6,6 +6,15 @@
 %>
 
 <style>
+#app {
+	display: inline;
+	align-items: center;
+	justify-content: center;
+	height: initial;
+	padding-top: 5px;
+	overflow: hidden;
+}
+
 #header {
     margin: 0 auto;
     width: 100%;
@@ -46,12 +55,12 @@ a {
 
 .cup {
     top: 8.5px;
-    position: relative;
+    position: absolute;
     margin: 0 auto;
-    width: 40px;
-    height: 35px;
+    width: 37px;
+    height: 32px;
     border-radius: .05em .05em 3em 3em;
-    box-shadow: 0 0 0 0.2em #242424
+    box-shadow: 0 0 0 0.2em #242424;
 }
 
 .coffee {
@@ -78,19 +87,18 @@ a {
     animation: coffee-wave .8s ease-in-out infinite;
     border-radius: 50%;
 }
-
 .cup:after {
     content: '';
     display: block;
     position: absolute;
     left: 85%;
     top: 0.3em;
-    width: 10px;
-    height: 15px;
+    width: 5px;
+    height: 10px;
     box-shadow: 0 0 0 0.3em #242424;
     margin-left: .5em;
     border-radius: 0 50% 50% 0;
-    }
+}
 .ingredient {
     position: absolute;
     left: 0;
@@ -151,11 +159,82 @@ font-size: 20px;
     font-size: 10px;
     font-weight: 600;
 }
+@media screen and (max-width:700px) { 
+/*모바일*/
+
+ 
+#header {
+padding: 0;
+} 
+
+#app .col-lg-12 {
+		width: 375px;
+	}
+	.content-wrapper {
+		padding: 0;
+	}
+	.mb-btn {
+		bottom: 10%;
+		right: 5%;
+	}
+	.main-header .logo {
+		float: left;
+		width: 25vw;
+		padding: 0;
+		display: inline-block;
+	}
+	.navbar-custom-menu>.navbar-nav>li {
+		display: inline-block;
+	}
+	#header .info {
+		display: none !important;
+	}
+	
+	.navbar-nav>li>a{
+	padding: 15px 10px; 
+	}
+	
+	.navbar 	.cup {
+		left: 10px;
+	}
+	
+#loading .cup {
+    left: -20px;
+    top: -2vh;
+}
+}
+
+.header .title {
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    width: 300px;
+    font-size: 1.625rem;
+    color: #ffffff;
+    line-height: 32px;
+}
+
+#loading {
+ width: 100%;  
+ height: 100%;  
+ top: 0px;
+ left: 0px;
+ position: fixed;  
+ display: block;  
+ opacity: 1;  
+ background-color: #fff;  
+ z-index: 9999;  
+ text-align: center; } 
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
 </style>
-
-<!-- Main Header -->
+<!-- Header -->
 <header id="header" class="main-header">
-
 
 	<%-- Header Navbar --%>
 	<nav class="navbar navbar-static-top" role="navigation">
@@ -181,16 +260,6 @@ font-size: 20px;
 							alt="User Image"> <span class="hidden-xs">${login.uname}</span>
 					</a>
 						<ul class="dropdown-menu">
-							<li class="user-header"><img
-								src="${path}/dist/img/profile/${login.uimage}"
-								class="img-circle" alt="User Image">
-								<p>
-									<small> 가입일자 : <fmt:formatDate value="${login.regdate}"
-											pattern="yyyy-MM-dd" />
-									</small> <small> 최근로그인일자 : <fmt:formatDate
-											value="${login.logdate}" pattern="yyyy-MM-dd a HH:mm" />
-									</small>
-								</p></li>
 							<li class="user-body">
 								<div class="row">
 									<div class="col-xs-4 text-center">
@@ -224,12 +293,6 @@ font-size: 20px;
 								로그인</span>
 					</a>
 						<ul class="dropdown-menu">
-							<li class="user-header"><img
-								src="${path}/dist/img/default-user-image.png" class="img-circle"
-								alt="User Image">
-								<p>
-									<b>회원가입 또는 로그인해주세요</b> <small></small>
-								</p></li>
 							<li class="user-footer">
 								<div class="pull-left">
 									<a href="${path}/user/register"
@@ -246,4 +309,5 @@ font-size: 20px;
 			</ul>
 		</div>
 	</nav>
+
 </header>
